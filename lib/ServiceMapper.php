@@ -1,0 +1,30 @@
+<?php
+
+
+namespace PayFast;
+
+use PayFast\PaymentIntegrations\CustomIntegration;
+use PayFast\PaymentIntegrations\Notification;
+use PayFast\PaymentIntegrations\OnsiteIntegration;
+use PayFast\Services\CreditCardTransactions;
+use PayFast\Services\Subscriptions;
+use PayFast\Services\TransactionHistory;
+
+class ServiceMapper
+{
+
+    private static $map = [
+        'custom' => CustomIntegration::class,
+        'onsite' => OnsiteIntegration::class,
+        'notification' => Notification::class,
+        'transactionHistory' => TransactionHistory::class,
+        'subscriptions' => Subscriptions::class,
+        'creditCardTransactions' => CreditCardTransactions::class
+    ];
+
+    public static function getClass($name)
+    {
+        return array_key_exists($name, self::$map) ? self::$map[$name] : null;
+    }
+
+}
