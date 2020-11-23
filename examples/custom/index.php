@@ -16,9 +16,9 @@ $payfast = new PayFastPayment(
 
 $data = [
     // Merchant details
-    'return_url' => 'https://158bccd93108.ngrok.io/checkout.php',
-    'cancel_url' => 'https://158bccd93108.ngrok.io/checkout.php',
-    'notify_url' => 'https://158bccd93108.ngrok.io/notify.php',
+    'return_url' => 'https://www.example.com/checkout.php',
+    'cancel_url' => 'https://www.example.com/checkout.php',
+    'notify_url' => 'https://www.example.com/notify.php',
     // Buyer details
     'name_first' => 'First Name',
     'name_last'  => 'Last Name',
