@@ -31,7 +31,7 @@ class CustomIntegration extends PayFastBase
 
         $data = ['merchant_id' => PayFastPayment::$merchantId, 'merchant_key' => PayFastPayment::$merchantKey] + $data;
 
-        $signature = Auth::generateSignature($data);
+        $signature = Auth::generateSignature($data,PayFastPayment::$passPhrase ?? null);
         $data['signature'] = $signature;
 
         $htmlForm = '<form action="'.PayFastPayment::$baseUrl.'/eng/process" method="post">';
