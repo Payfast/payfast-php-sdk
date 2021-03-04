@@ -12,17 +12,12 @@ use PayFast\Auth;
 use PayFast\Exceptions\InvalidRequestException;
 use PayFast\PayFastBase;
 use PayFast\PayFastPayment;
+use RuntimeException;
 
 class OnsiteIntegration extends PayFastBase
 {
 
-    const PATH = 'onsite/process';
-
-    public function __construct()
-    {
-        // Onsite is not available in test mode
-        PayFastPayment::setTestMode(false);
-    }
+    private const PATH = 'onsite/process';
 
     private function dataToString($dataArray)
     {
@@ -46,6 +41,10 @@ class OnsiteIntegration extends PayFastBase
      */
     public function generatePaymentIdentifier($data)
     {
+        if(PayFastPayment::$testMode === true) {
+            throw new InvalidRequestException('Sorry but Onsite is not available in Sandbox mode', 400);
+        }
+
         $authDetails = [
             'merchant_id' => PayFastPayment::$merchantId,
             'merchant_key' => PayFastPayment::$merchantKey
@@ -73,7 +72,7 @@ class OnsiteIntegration extends PayFastBase
             $response = $e->getResponse();
             throw new InvalidRequestException($response->getBody()->getContents(), 400);
         } catch (GuzzleException $e) {
-            throw new Exception($e);
+            throw new RuntimeException($e);
         }
 
     }
