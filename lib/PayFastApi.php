@@ -4,6 +4,7 @@ namespace PayFast;
 
 use Exception;
 use PayFast\Exceptions\InvalidRequestException;
+use RuntimeException;
 
 /**
  * Class PayFast
@@ -42,9 +43,9 @@ class PayFastApi
         } else {
             throw new InvalidRequestException('Missing parameter "merchantId"', 400);
         }
-        self::$passPhrase = (isset($setup['passPhrase'])) ? $setup['passPhrase'] : null;
-        self::$testMode = (isset($setup['testMode'])) ? $setup['testMode'] : false;
-        self::$version = (isset($setup['version'])) ? $setup['version'] : 'v1';
+        self::$passPhrase = $setup['passPhrase'] ?? null;
+        self::$testMode = $setup['testMode'] ?? false;
+        self::$version = $setup['version'] ?? 'v1';
     }
 
     /**
@@ -56,9 +57,9 @@ class PayFastApi
         $class = ServiceMapper::getClass($property);
         if ($class !== null) {
             return new $class;
-        } else {
-            throw new Exception("Unknown method");
         }
+
+        throw new RuntimeException("Unknown method");
     }
 
 }

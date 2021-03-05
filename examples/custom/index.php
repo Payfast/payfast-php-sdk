@@ -16,8 +16,8 @@ $payfast = new PayFastPayment(
 
 $data = [
     // Merchant details
-    'return_url' => 'https://www.example.com/checkout.php',
-    'cancel_url' => 'https://www.example.com/checkout.php',
+    'return_url' => 'https://www.example.com/return.php',
+    'cancel_url' => 'https://www.example.com/cancel.php',
     'notify_url' => 'https://www.example.com/notify.php',
     // Buyer details
     'name_first' => 'First Name',

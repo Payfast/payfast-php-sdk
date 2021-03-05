@@ -7,6 +7,7 @@ use PayFast\PaymentIntegrations\CustomIntegration;
 use PayFast\PaymentIntegrations\Notification;
 use PayFast\PaymentIntegrations\OnsiteIntegration;
 use PayFast\Services\CreditCardTransactions;
+use PayFast\Services\Refunds;
 use PayFast\Services\Subscriptions;
 use PayFast\Services\TransactionHistory;
 
@@ -19,12 +20,13 @@ class ServiceMapper
         'notification' => Notification::class,
         'transactionHistory' => TransactionHistory::class,
         'subscriptions' => Subscriptions::class,
-        'creditCardTransactions' => CreditCardTransactions::class
+        'creditCardTransactions' => CreditCardTransactions::class,
+        'refunds' => Refunds::class
     ];
 
     public static function getClass($name)
     {
-        return array_key_exists($name, self::$map) ? self::$map[$name] : null;
+        return self::$map[$name] ?? null;
     }
 
 }

@@ -4,12 +4,10 @@
 namespace PayFast;
 
 
-use Exception;
 use PayFast\Exceptions\InvalidRequestException;
 
 class Validate
 {
-    static $errors = true;
 
     /**
      * Validate Date
@@ -17,10 +15,10 @@ class Validate
      * @param $date
      * @param string $format
      * @param string $paramName
-     * @return bool
+     * @return mixed
      * @throws InvalidRequestException
      */
-    static function validateDate($date, $format = 'Y-m-d H:i:s', $paramName = "date")
+    public static function validateDate($date, $format = 'Y-m-d H:i:s', $paramName = "date")
     {
         $createDate = date_create($date);
         if($createDate == '' || date_format($createDate, $format) !== $date){
@@ -30,17 +28,31 @@ class Validate
     }
 
     /**
+     * Validate integers
      * @param $value
      * @param $key
-     * @return int|string
+     * @return void
      * @throws InvalidRequestException
      */
-    static function validateInt($value, $key)
+    private static function validateInt($value, $key): void
     {
         if(!is_numeric($value)) {
             throw new InvalidRequestException('Invalid format for "'.$key.'"', 400);
         }
-        return $value;
+    }
+
+    /**
+     * Validate account type
+     * @param $value
+     * @param $key
+     * @throws InvalidRequestException
+     */
+    private static function validateAccType($value, $key): void
+    {
+        $validAccTypes = ['current', 'savings'];
+        if(!in_array($value, $validAccTypes, true)) {
+            throw new InvalidRequestException('Invalid format for "'.$key.'"', 400);
+        }
     }
 
     /**
@@ -49,24 +61,25 @@ class Validate
      * @param $validation
      * @throws InvalidRequestException
      */
-    static function validateOptions($array, $validation) {
+    public static function validateOptions($array, $validation) : void {
         try {
             foreach($array as $attribute => $value) {
                 if(isset($validation[$attribute])) {
                     switch ($validation[$attribute]) {
                         case 'int':
-                            Validate::validateInt($value, $attribute);
+                            self::validateInt($value, $attribute);
                             break;
                         case 'date':
-                            Validate::validateDate($value, "Y-m-d" ,$attribute);
+                            self::validateDate($value, "Y-m-d" ,$attribute);
+                            break;
+                        case 'accType':
+                            self::validateAccType($value, $attribute);
                             break;
                     }
                 }
             }
         } catch (InvalidRequestException $e) {
             throw new InvalidRequestException($e->getMessage(), 400);
-        } catch (Exception $e) {
-            throw $e;
         }
     }
 

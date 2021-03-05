@@ -12,11 +12,17 @@ final class CreditCardTransactionsTest extends TestCase
 
     public static function setUpBeforeClass(): void
     {
-        self::$api = new PayFastApi([
-            'merchantId' => '10018867',
-            'passPhrase' => '2uU_k5q_vRS_',
-            'testMode' => true
-        ]);
+        try {
+            self::$api = new PayFastApi(
+                [
+                    'merchantId' => '10018867',
+                    'passPhrase' => '2uU_k5q_vRS_',
+                    'testMode' => true
+                ]
+            );
+        } catch (InvalidRequestException $e) {
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
+        }
     }
 
     /**

@@ -10,11 +10,12 @@ use GuzzleHttp\Exception\GuzzleException;
 use PayFast\Exceptions\InvalidRequestException;
 use PayFast\PayFastBase;
 use PayFast\Request;
+use RuntimeException;
 
 class CreditCardTransactions extends PayFastBase
 {
 
-    const PATH = 'process/query';
+    private const PATH = 'process/query';
 
     /**
      * Query a credit card transaction
@@ -34,7 +35,7 @@ class CreditCardTransactions extends PayFastBase
             $response = $e->getResponse();
             throw new InvalidRequestException($response->getBody()->getContents(), 400);
         } catch (GuzzleException $e) {
-            throw new Exception($e);
+            throw new RuntimeException($e);
         }
     }
 

@@ -14,11 +14,17 @@ final class SubscriptionsTest extends TestCase
 
     public static function setUpBeforeClass(): void
     {
-        self::$api = new PayFastApi([
-           'merchantId' => '10018867',
-           'passPhrase' => '2uU_k5q_vRS_',
-           'testMode' => true
-        ]);
+        try {
+            self::$api = new PayFastApi(
+                [
+                    'merchantId' => '10018867',
+                    'passPhrase' => '2uU_k5q_vRS_',
+                    'testMode' => true
+                ]
+            );
+        } catch (InvalidRequestException $e) {
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
+        }
         self::$token = '2afa4575-5628-051a-d0ed-4e071b56a7b0';
         self::$adhocToken = '290ac9a6-25f1-cce4-5801-67a644068818';
     }
@@ -31,7 +37,7 @@ final class SubscriptionsTest extends TestCase
     {
         $response = self::$api->subscriptions->fetch(self::$token);
 
-        $this->assertEquals("success", $response['status']);
+        self::assertEquals("success", $response['status']);
 
         return $response['data']['response']['status_text'];
     }
@@ -54,7 +60,7 @@ final class SubscriptionsTest extends TestCase
     {
         $response = self::$api->subscriptions->pause(self::$token, ['cycles' => 1]);
 
-        $this->assertContains($response['status'], ["success", "failed"]);
+        self::assertContains($response['status'], ["success", "failed"]);
     }
 
     /**

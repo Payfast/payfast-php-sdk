@@ -15,7 +15,7 @@ class PayFastBase
      */
     public function __call($name, $arguments) {
         if (!method_exists($this, $name)) {
-            throw new Exception('Unknown method '.$name);
+            throw new \RuntimeException('Unknown method '.$name);
         }
     }
 

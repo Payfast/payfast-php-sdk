@@ -15,7 +15,7 @@ use PayFast\Validate;
 class Subscriptions extends PayFastBase
 {
 
-    const PATH = 'subscriptions';
+    private const PATH = 'subscriptions';
 
     /**
      * Fetch a subscription
@@ -59,8 +59,6 @@ class Subscriptions extends PayFastBase
         }catch (ClientException $e) {
             $response = $e->getResponse();
             throw new InvalidRequestException($response->getBody()->getContents(), 400);
-        } catch (Exception $e) {
-            throw $e;
         }
     }
 
@@ -82,8 +80,6 @@ class Subscriptions extends PayFastBase
         } catch (ClientException $e) {
             $response = $e->getResponse();
             throw new InvalidRequestException($response->getBody()->getContents(), 400);
-        } catch (Exception $e) {
-            throw $e;
         }
     }
 
@@ -105,8 +101,6 @@ class Subscriptions extends PayFastBase
         } catch (ClientException $e) {
             $response = $e->getResponse();
             throw new InvalidRequestException($response->getBody()->getContents(), 400);
-        } catch (Exception $e) {
-            throw $e;
         }
     }
 
@@ -130,8 +124,6 @@ class Subscriptions extends PayFastBase
         }catch (ClientException $e) {
             $response = $e->getResponse();
             throw new InvalidRequestException($response->getBody()->getContents(), 400);
-        } catch (Exception $e) {
-            throw $e;
         }
     }
 
@@ -162,8 +154,6 @@ class Subscriptions extends PayFastBase
         }catch (ClientException $e) {
             $response = $e->getResponse();
             throw new InvalidRequestException($response->getBody()->getContents(), 400);
-        } catch (Exception $e) {
-            throw $e;
         }
     }
 

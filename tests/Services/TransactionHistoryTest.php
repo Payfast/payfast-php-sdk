@@ -12,27 +12,33 @@ final class TransactionHistoryTest extends TestCase
 
     public static function setUpBeforeClass(): void
     {
-        self::$api = new PayFastApi([
-            'merchantId' => '10018867',
-            'passPhrase' => '2uU_k5q_vRS_',
-            'testMode' => true
-        ]);
+        try {
+            self::$api = new PayFastApi(
+                [
+                    'merchantId' => '10018867',
+                    'passPhrase' => '2uU_k5q_vRS_',
+                    'testMode' => true
+                ]
+            );
+        } catch (InvalidRequestException $e) {
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
+        }
     }
 
     /**
      * Test successful range
      */
-    public function testRange()
+    public function testRange(): void
     {
         $response = self::$api->transactionHistory->range(['from' => '2020-08-01', 'to' => '2020-08-07']);
 
-        $this->assertIsString($response);
+        self::assertIsString($response);
     }
 
     /**
      * Test unsuccessful range
      */
-    public function testUnsuccessfulRange()
+    public function testUnsuccessfulRange(): void
     {
         $this->expectException(InvalidRequestException::class);
 
@@ -42,17 +48,17 @@ final class TransactionHistoryTest extends TestCase
     /**
      * Test successful daily
      */
-    public function testDaily()
+    public function testDaily(): void
     {
         $response = self::$api->transactionHistory->daily(['date' => '2020-08-07']);
 
-        $this->assertIsString($response);
+        self::assertIsString($response);
     }
 
     /**
      * Test unsuccessful daily
      */
-    public function testUnsuccessfulDaily()
+    public function testUnsuccessfulDaily(): void
     {
         $this->expectException(InvalidRequestException::class);
 
@@ -62,17 +68,17 @@ final class TransactionHistoryTest extends TestCase
     /**
      * Test successful weekly
      */
-    public function testWeekly()
+    public function testWeekly(): void
     {
         $response = self::$api->transactionHistory->weekly(['date' => '2020-08-07']);
 
-        $this->assertIsString($response);
+        self::assertIsString($response);
     }
 
     /**
      * Test unsuccessful weekly
      */
-    public function testUnsuccessfulWeekly()
+    public function testUnsuccessfulWeekly(): void
     {
         $this->expectException(InvalidRequestException::class);
 
@@ -82,17 +88,17 @@ final class TransactionHistoryTest extends TestCase
     /**
      * Test successful monthly
      */
-    public function testMonthly()
+    public function testMonthly(): void
     {
         $response = self::$api->transactionHistory->monthly(['date' => '2020-08']);
 
-        $this->assertIsString($response);
+        self::assertIsString($response);
     }
 
     /**
      * Test unsuccessful monthly
      */
-    public function testUnsuccessfulMonthly()
+    public function testUnsuccessfulMonthly(): void
     {
         $this->expectException(InvalidRequestException::class);
 

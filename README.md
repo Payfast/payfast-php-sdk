@@ -31,6 +31,8 @@ require_once('vendor/autoload.php');
 
 Build a checkout form and receive payments securely from the PayFast payment platform.
 
+See the [Developer Docs](https://developers.payfast.co.za/docs#quickstart)
+
 ```php
 try {
     $payfast = new PayFastPayment(
@@ -56,6 +58,8 @@ try {
 ### Onsite Payments
 
 Integrate PayFast’s secure payment engine directly into your checkout page.
+
+See the [Developer Docs](https://developers.payfast.co.za/docs#onsite_payments)
 
 ```php
 // Include: <script src="https://www.payfast.co.za/onsite/engine.js"></script>
@@ -92,6 +96,8 @@ try {
 
 The Subscription Payments API gives Merchants the ability to interact with subscriptions on their accounts.
 
+See the [Developer Docs](https://developers.payfast.co.za/api#recurring-billing)
+
 ```php
 try {
     $api = new PayFastApi(
@@ -119,9 +125,35 @@ try {
 }
 ```
 
+#### Update card
+
+The update card endpoint allows you to provide buyers with a link to update their card details on a Recurring Billing subscription or Tokenization charges.
+
+See the [Developer Docs](https://developers.payfast.co.za/docs#recurring_card_update)
+
+```php
+try {
+    $payfast = new PayFastPayment(
+            [
+                'merchantId' => '10000100',
+                'merchantKey' => '46f0cd694581a',
+                'passPhrase' => '',
+                'testMode' => false
+            ]
+        );
+
+    echo $payfast->custom->createCardUpdateLink('2afa4575-5628-051a-d0ed-4e071b56a7b0', 'https://www.example.com/return', 'Update your card', ['target' => '_blank']);
+
+} catch(Exception $e) {
+    echo 'There was an exception: '.$e->getMessage();
+}
+```
+
 #### Transaction History
 
 The transaction history API gives Merchants the ability to interact with their PayFast account.
+
+See the [Developer Docs](https://developers.payfast.co.za/api#transaction-history)
 
 ```php
 try {
@@ -150,6 +182,8 @@ try {
 
 The credit card transaction query API gives Merchants the ability to query credit card transactions.
 
+See the [Developer Docs](https://developers.payfast.co.za/api#credit-card-transactions)
+
 ```php
 try {
     $api = new PayFastApi(
@@ -166,3 +200,29 @@ try {
     echo 'There was an exception: '.$e->getMessage();
 }
 ```
+
+#### Refunds
+
+The Refunds API Providing gives Merchants the ability to perform refunds on their account.
+
+See the [Developer Docs](https://developers.payfast.co.za/api#refunds)
+
+```php
+try {
+    $api = new PayFastApi(
+        [
+            'merchantId' => '10018867',
+            'passPhrase' => '2uU_k5q_vRS_',
+            'testMode' => false
+        ]
+    );
+
+    $refundFetchArray = $api->refunds->fetch('dc0521d3-55fe-269b-fa00-b647310d760f');
+    
+    $refundCreateArray = $api->refunds->create('dc0521d3-55fe-269b-fa00-b647310d760f', ['amount' => 50, 'reason' => 'Product returned', 'acc_type' => 'savings']);
+
+} catch(Exception $e) {
+    echo 'There was an exception: '.$e->getMessage();
+}
+```
+

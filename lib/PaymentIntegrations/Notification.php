@@ -12,6 +12,7 @@ use PayFast\Exceptions\InvalidRequestException;
 use PayFast\PayFastBase;
 use PayFast\PayFastPayment;
 use Psr\Http\Message\StreamInterface;
+use RuntimeException;
 
 class Notification extends PayFastBase
 {
@@ -23,7 +24,7 @@ class Notification extends PayFastBase
      * @return bool
      * @throws InvalidRequestException
      */
-    public function isValidNotification(array $pfData, array $checks = []) {
+    public function isValidNotification(array $pfData, array $checks = []): bool {
 
         $pfData = $this->cleanNotificationData($pfData);
         $pfParamString = $this->dataToString($pfData);
@@ -33,13 +34,7 @@ class Notification extends PayFastBase
         $check3 = $this->pfValidData($pfData, $checks);
         $check4 = $this->pfValidServerConfirmation($pfParamString);
 
-        if ($check1 && $check2 && $check3 && $check4) {
-            // All checks have passed, the payment is successful
-            return true;
-        } else {
-            // Some checks have failed, check payment manually and log for investigation
-            return false;
-        }
+        return $check1 && $check2 && $check3 && $check4;
     }
 
     /**
@@ -60,7 +55,7 @@ class Notification extends PayFastBase
      * @param $pfData
      * @return string
      */
-    private function dataToString($pfData) {
+    private function dataToString($pfData): string {
         $pfParamString = '';
         foreach( $pfData as $key => $val ) {
             if( $key !== 'signature' ) {
@@ -80,7 +75,7 @@ class Notification extends PayFastBase
      * @param null $pfPassphrase
      * @return bool
      */
-    private function pfValidSignature( $pfData, $pfParamString, $pfPassphrase = null ) {
+    private function pfValidSignature( $pfData, $pfParamString, $pfPassphrase = null ): bool {
         if(!isset($pfData['signature'])) {
             PayFastPayment::$errorMsg[] = "Invalid signature";
             return false;
@@ -103,7 +98,7 @@ class Notification extends PayFastBase
      * Check that the notification has come from a valid PayFast domain
      * @return bool
      */
-    private function pfValidIP()
+    private function pfValidIP(): bool
     {
         if(!isset($_SERVER['HTTP_REFERER'])) {
             PayFastPayment::$errorMsg[] = "This notification does not come from a valid PayFast domain";
@@ -123,8 +118,9 @@ class Notification extends PayFastBase
         foreach ($validHosts as $pfHostname) {
             $ips = gethostbynamel($pfHostname);
 
-            if ($ips !== false)
-                $validIps = array_merge($validIps, $ips);
+            if ($ips !== false && is_array($ips)) {
+                array_push($validIps, ...$ips);
+            }
         }
 
         // Remove duplicates
@@ -143,7 +139,7 @@ class Notification extends PayFastBase
      * @param array $checks
      * @return bool
      */
-    private function pfValidData($pfData, array $checks = [])
+    private function pfValidData($pfData, array $checks = []): bool
     {
         if(!empty($checks)) {
             foreach($checks as $k => $v) {
@@ -161,7 +157,7 @@ class Notification extends PayFastBase
                         PayFastPayment::$errorMsg[] = "Parameter '".$k."' does not exist in the post data";
                         return false;
                     }
-                    if($pfData[$k] != $v) {
+                    if($pfData[$k] !== $v) {
                         PayFastPayment::$errorMsg[] = "The '".$k."' is ".$pfData[$k].", you expected ".$v;
                         return false;
                     }
@@ -194,7 +190,7 @@ class Notification extends PayFastBase
             $response = $e->getResponse();
             throw new InvalidRequestException($response->getBody()->getContents(), 400);
         } catch (GuzzleException $e) {
-            throw new Exception($e);
+            throw new RuntimeException($e);
         }
     }
 

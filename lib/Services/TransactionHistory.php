@@ -11,11 +11,12 @@ use PayFast\Exceptions\InvalidRequestException;
 use PayFast\PayFastBase;
 use PayFast\Request;
 use PayFast\Validate;
+use RuntimeException;
 
 class TransactionHistory extends PayFastBase
 {
 
-    const PATH = 'transactions/history';
+    private const PATH = 'transactions/history';
 
 
     /**
@@ -46,7 +47,7 @@ class TransactionHistory extends PayFastBase
             $response = $e->getResponse();
             throw new InvalidRequestException($response->getBody()->getContents(), 400);
         } catch (GuzzleException $e) {
-            throw new Exception($e);
+            throw new RuntimeException($e);
         }
     }
 
@@ -70,7 +71,7 @@ class TransactionHistory extends PayFastBase
             $response = $e->getResponse();
             throw new InvalidRequestException($response->getBody()->getContents(), 400);
         } catch (GuzzleException $e) {
-            throw new Exception($e);
+            throw new RuntimeException($e);
         }
     }
 
@@ -94,7 +95,7 @@ class TransactionHistory extends PayFastBase
             $response = $e->getResponse();
             throw new InvalidRequestException($response->getBody()->getContents(), 400);
         } catch (GuzzleException $e) {
-            throw new Exception($e);
+            throw new RuntimeException($e);
         }
     }
 
@@ -118,7 +119,7 @@ class TransactionHistory extends PayFastBase
             $response = $e->getResponse();
             throw new InvalidRequestException($response->getBody()->getContents(), 400);
         } catch (GuzzleException $e) {
-            throw new Exception($e);
+            throw new RuntimeException($e);
         }
     }
 

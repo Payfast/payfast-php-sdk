@@ -19,12 +19,13 @@ class CustomIntegration extends PayFastBase
      * @return string
      * @throws InvalidRequestException
      */
-    public function createFormFields($data = [], $buttonParams = []) {
+    public function createFormFields($data = [], $buttonParams = []): string {
         if(!isset($data['amount'])){
             throw new InvalidRequestException('Required "amount" parameter missing', 400);
-        } else {
-            $data['amount'] = number_format( sprintf( '%.2f', $data['amount'] ), 2, '.', '' );
         }
+
+        $data['amount'] = number_format( sprintf( '%.2f', $data['amount'] ), 2, '.', '' );
+
         if(!isset($data['item_name'])){
             throw new InvalidRequestException('Required "item_name" parameter missing', 400);
         }
@@ -35,24 +36,55 @@ class CustomIntegration extends PayFastBase
         $data['signature'] = $signature;
 
         $htmlForm = '<form action="'.PayFastPayment::$baseUrl.'/eng/process" method="post">';
-        foreach($data as $name=> $value)
+        foreach($data as $name => $value)
         {
             $htmlForm .= '<input name="'.$name.'" type="hidden" value="'.$value.'" />';
         }
+
+        $buttonValue = 'Pay Now';
         if(!empty($buttonParams)) {
-            $value = (isset($buttonParams['value'])) ? $buttonParams['value'] : 'Pay Now';
-            unset($buttonParams['value']);
+            $buttonValue = $buttonParams['value'];
         }
         $additionalOptions = '';
         foreach($buttonParams as $k => $v) {
             $additionalOptions .= $k.'="'.$v.'" ';
         }
 
-        $htmlForm .= '<input type="submit" value="'.$value.'" '.$additionalOptions.'/>';
+        $htmlForm .= '<input type="submit" value="'.$buttonValue.'" '.$additionalOptions.'/>';
 
         $htmlForm .= '</form>';
 
         return $htmlForm;
+    }
+
+    /**
+     * @param null $token
+     * @param null $return
+     * @param null $linkText
+     * @param array $linkParams
+     * @return string
+     * @throws InvalidRequestException
+     */
+    public function createCardUpdateLink($token = null, $return = null, $linkText = 'Update Card', $linkParams = []): string {
+        if($token === null){
+            throw new InvalidRequestException('Required "token" parameter missing', 400);
+        }
+        if(PayFastPayment::$testMode === true) {
+            throw new InvalidRequestException('Sorry but this feature is not available in Sandbox mode', 400);
+        }
+
+        $additionalOptions = '';
+        foreach($linkParams as $k => $v) {
+            $additionalOptions .= $k.'="'.$v.'" ';
+        }
+
+        $url = PayFastPayment::$baseUrl.'/eng/recurring/update/'.$token;
+        if($return) {
+            $url .= '?return=' . $return;
+        }
+
+        return '<a href="'.$url.'" '.$additionalOptions.'>'.$linkText.'</a>';
+
     }
 
 }
