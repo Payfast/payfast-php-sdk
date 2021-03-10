@@ -72,7 +72,7 @@ class Auth
         // Create parameter string
         $pfOutput = '';
         foreach( $sortAttributes as $attribute ) {
-            if(array_key_exists($attribute, $data) && !empty($data[$attribute])) {
+            if(array_key_exists($attribute, $data) && $data[$attribute] !== '') {
                 $pfOutput .= $attribute .'='. urlencode( trim( $data[$attribute] ) ) .'&';
             }
         }

@@ -24,7 +24,7 @@ class OnsiteIntegration extends PayFastBase
         // Create parameter string
         $pfOutput = '';
         foreach ($dataArray as $key => $val) {
-            if (!empty($val)) {
+            if ($val !== '') {
                 $pfOutput .= $key . '=' . urlencode(trim($val)) . '&';
             }
         }
