@@ -29,7 +29,7 @@ class Notification extends PayFastBase
         $pfData = $this->cleanNotificationData($pfData);
         $pfParamString = $this->dataToString($pfData);
 
-        $check1 = $this->pfValidSignature($pfData, $pfParamString);
+        $check1 = $this->pfValidSignature($pfData, $pfParamString, PayFastPayment::$passPhrase);
         $check2 = $this->pfValidIP();
         $check3 = $this->pfValidData($pfData, $checks);
         $check4 = $this->pfValidServerConfirmation($pfParamString);
