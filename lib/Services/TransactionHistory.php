@@ -21,7 +21,7 @@ class TransactionHistory extends PayFastBase
 
     /**
      * Transaction history
-     * $payfast->transactionHistory->range(['from' => '2020-08-10', 'to' => '2020-08-12']);
+     * $payfast->transactionHistory->range(['from' => '2020-08-01', 'to' => '2020-08-07'], 'offset' => 0, 'limit' => 1000);
      * @param $data
      * @return string
      * @throws InvalidRequestException
@@ -40,6 +40,18 @@ class TransactionHistory extends PayFastBase
                     $queryParam['to'] = $data['from'];
                     $queryParam['from'] = $data['to'];
                 }
+            }
+            if(isset($data['offset'])) {
+                if (!is_numeric($data['offset'])) {
+                    throw new InvalidRequestException('Variable "offset" must be an integer.', 400);
+                }
+                $queryParam['offset'] = $data['offset'];
+            }
+            if(isset($data['limit'])) {
+                if (!is_numeric($data['limit'])) {
+                    throw new InvalidRequestException('Variable "limit" must be an integer.', 400);
+                }
+                $queryParam['limit'] = $data['limit'];
             }
             $response = Request::sendApiRequest('GET', self::PATH, $queryParam);
             return $response->getContents();
