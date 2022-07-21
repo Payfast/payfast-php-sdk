@@ -21,7 +21,7 @@ class TransactionHistory extends PayFastBase
 
     /**
      * Transaction history
-     * $payfast->transactionHistory->range(['from' => '2020-08-01', 'to' => '2020-08-07'], 'offset' => 0, 'limit' => 1000);
+     * $payfast->transactionHistory->range(['from' => '2020-08-01', 'to' => '2020-08-07', 'offset' => 0, 'limit' => 1000]);
      * @param $data
      * @return string
      * @throws InvalidRequestException
@@ -75,9 +75,22 @@ class TransactionHistory extends PayFastBase
         if(!isset($data['date'])){
             throw new InvalidRequestException('Required "date" parameter missing', 400);
         }
+        $queryParam['date'] = $data['date'];
+        if(isset($data['offset'])) {
+            if (!is_numeric($data['offset'])) {
+                throw new InvalidRequestException('Variable "offset" must be an integer.', 400);
+            }
+            $queryParam['offset'] = $data['offset'];
+        }
+        if(isset($data['limit'])) {
+            if (!is_numeric($data['limit'])) {
+                throw new InvalidRequestException('Variable "limit" must be an integer.', 400);
+            }
+            $queryParam['limit'] = $data['limit'];
+        }
         try {
             Validate::validateDate($data['date'], 'Y-m-d');
-            $response = Request::sendApiRequest('GET', self::PATH . '/daily', ['date' => $data['date']]);
+            $response = Request::sendApiRequest('GET', self::PATH . '/daily', $queryParam);
             return $response->getContents();
         }catch (ClientException $e) {
             $response = $e->getResponse();
@@ -99,9 +112,22 @@ class TransactionHistory extends PayFastBase
         if(!isset($data['date'])){
             throw new InvalidRequestException('Required "date" parameter missing', 400);
         }
+        $queryParam['date'] = $data['date'];
+        if(isset($data['offset'])) {
+            if (!is_numeric($data['offset'])) {
+                throw new InvalidRequestException('Variable "offset" must be an integer.', 400);
+            }
+            $queryParam['offset'] = $data['offset'];
+        }
+        if(isset($data['limit'])) {
+            if (!is_numeric($data['limit'])) {
+                throw new InvalidRequestException('Variable "limit" must be an integer.', 400);
+            }
+            $queryParam['limit'] = $data['limit'];
+        }
         try {
             Validate::validateDate($data['date'], 'Y-m-d');
-            $response = Request::sendApiRequest('GET', self::PATH . '/weekly', ['date' => $data['date']]);
+            $response = Request::sendApiRequest('GET', self::PATH . '/weekly', $queryParam);
             return $response->getContents();
         }catch (ClientException $e) {
             $response = $e->getResponse();
@@ -123,9 +149,22 @@ class TransactionHistory extends PayFastBase
         if(!isset($data['date'])){
             throw new InvalidRequestException('Required "date" parameter missing', 400);
         }
+        $queryParam['date'] = $data['date'];
+        if(isset($data['offset'])) {
+            if (!is_numeric($data['offset'])) {
+                throw new InvalidRequestException('Variable "offset" must be an integer.', 400);
+            }
+            $queryParam['offset'] = $data['offset'];
+        }
+        if(isset($data['limit'])) {
+            if (!is_numeric($data['limit'])) {
+                throw new InvalidRequestException('Variable "limit" must be an integer.', 400);
+            }
+            $queryParam['limit'] = $data['limit'];
+        }
         try {
             Validate::validateDate($data['date'], 'Y-m');
-            $response = Request::sendApiRequest('GET', self::PATH . '/monthly', ['date' => $data['date']]);
+            $response = Request::sendApiRequest('GET', self::PATH . '/monthly', $queryParam);
             return $response->getContents();
         }catch (ClientException $e) {
             $response = $e->getResponse();
