@@ -17,16 +17,16 @@ final class SubscriptionsTest extends TestCase
         try {
             self::$api = new PayFastApi(
                 [
-                    'merchantId' => '10018867',
-                    'passPhrase' => '2uU_k5q_vRS_',
+                    'merchantId' => '10026755',
+                    'passPhrase' => 'test_sandbox',
                     'testMode' => true
                 ]
             );
         } catch (InvalidRequestException $e) {
             echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
-        self::$token = '2afa4575-5628-051a-d0ed-4e071b56a7b0';
-        self::$adhocToken = '290ac9a6-25f1-cce4-5801-67a644068818';
+        self::$token = 'b3f61513-7d99-42d7-bb89-78ca650334d2';
+        self::$adhocToken = 'b992df91-65cb-4613-89bc-5539e13ba4d3';
     }
 
     /**
