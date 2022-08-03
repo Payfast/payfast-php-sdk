@@ -1,6 +1,6 @@
 # PayFast PHP SDK
 
-The PayFast PHP SDK provides an easy to use library for integrating PayFast payments into your project.
+The PayFast PHP SDK provides an easy-to-use library for integrating PayFast payments into your project.
 This includes Custom Integration, Onsite Integration and all APIs.
 
 ## Requirements

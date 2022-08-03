@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.3 - 2022-08-03
+* Add offset and limit to transaction history
+
+## 1.1.2 - 2021-03-15
+* Lower httpguzzle version expectations and use passphrase
+
 ## 1.1.1 - 2021-03-11
 * Fix for payload parameters with a zero value
 
