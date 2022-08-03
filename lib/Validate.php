@@ -72,6 +72,9 @@ class Validate
                         case 'date':
                             self::validateDate($value, "Y-m-d" ,$attribute);
                             break;
+                        case 'monthly':
+                            self::validateDate($value, "Y-m" ,$attribute);
+                            break;
                         case 'accType':
                             self::validateAccType($value, $attribute);
                             break;

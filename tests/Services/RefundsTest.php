@@ -16,8 +16,8 @@ final class RefundsTest extends TestCase
         try {
             self::$api = new PayFastApi(
                 [
-                    'merchantId' => '10018867',
-                    'passPhrase' => '2uU_k5q_vRS_',
+                    'merchantId' => '10026755',
+                    'passPhrase' => 'test_sandbox',
                     'testMode' => true
                 ]
             );

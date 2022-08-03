@@ -21,7 +21,7 @@ class TransactionHistory extends PayFastBase
 
     /**
      * Transaction history
-     * $payfast->transactionHistory->range(['from' => '2020-08-10', 'to' => '2020-08-12']);
+     * $payfast->transactionHistory->range(['from' => '2020-08-01', 'to' => '2020-08-07', 'offset' => 0, 'limit' => 1000]);
      * @param $data
      * @return string
      * @throws InvalidRequestException
@@ -33,9 +33,8 @@ class TransactionHistory extends PayFastBase
             $data['from'] = date("Y-m-d");
         }
         try {
-            $queryParam['from'] = Validate::validateDate($data['from'], 'Y-m-d', 'from');
+            Validate::validateOptions($data, ['from' => 'date', 'to' => 'date', 'offset' => 'int','limit' => 'int']);
             if(isset($data['to'])) {
-                $queryParam['to'] = Validate::validateDate($data['to'], 'Y-m-d', 'to');
                 if($data['to'] < $data['from']) {
                     $queryParam['to'] = $data['from'];
                     $queryParam['from'] = $data['to'];
@@ -53,7 +52,7 @@ class TransactionHistory extends PayFastBase
 
     /**
      * Daily transaction history
-     * $payfast->transactionHistory->daily(['date' => '2020-08-07']);
+     * $payfast->transactionHistory->daily(['date' => '2020-08-07', 'offset' => 0, 'limit' => 1000]);
      * @param $data
      * @return string
      * @throws InvalidRequestException
@@ -64,8 +63,8 @@ class TransactionHistory extends PayFastBase
             throw new InvalidRequestException('Required "date" parameter missing', 400);
         }
         try {
-            Validate::validateDate($data['date'], 'Y-m-d');
-            $response = Request::sendApiRequest('GET', self::PATH . '/daily', ['date' => $data['date']]);
+            Validate::validateOptions($data, ['date' => 'date','offset' => 'int','limit' => 'int']);
+            $response = Request::sendApiRequest('GET', self::PATH . '/daily', $data);
             return $response->getContents();
         }catch (ClientException $e) {
             $response = $e->getResponse();
@@ -77,7 +76,7 @@ class TransactionHistory extends PayFastBase
 
     /**
      * Weekly transaction history
-     * $payfast->transactionHistory->weekly(['date' => '2020-08-07']);
+     * $payfast->transactionHistory->weekly(['date' => '2020-08-07', 'offset' => 0, 'limit' => 1000]);
      * @param $data
      * @return string
      * @throws InvalidRequestException
@@ -88,8 +87,8 @@ class TransactionHistory extends PayFastBase
             throw new InvalidRequestException('Required "date" parameter missing', 400);
         }
         try {
-            Validate::validateDate($data['date'], 'Y-m-d');
-            $response = Request::sendApiRequest('GET', self::PATH . '/weekly', ['date' => $data['date']]);
+            Validate::validateOptions($data, ['date' => 'date','offset' => 'int','limit' => 'int']);
+            $response = Request::sendApiRequest('GET', self::PATH . '/weekly', $data);
             return $response->getContents();
         }catch (ClientException $e) {
             $response = $e->getResponse();
@@ -101,7 +100,7 @@ class TransactionHistory extends PayFastBase
 
     /**
      * Monthly transaction history
-     * $payfast->transactionHistory->monthly(['date' => '2020-08']);
+     * $payfast->transactionHistory->monthly(['date' => '2020-08', 'offset' => 0, 'limit' => 1000]);
      * @param $data
      * @return string
      * @throws InvalidRequestException
@@ -112,8 +111,8 @@ class TransactionHistory extends PayFastBase
             throw new InvalidRequestException('Required "date" parameter missing', 400);
         }
         try {
-            Validate::validateDate($data['date'], 'Y-m');
-            $response = Request::sendApiRequest('GET', self::PATH . '/monthly', ['date' => $data['date']]);
+            Validate::validateOptions($data, ['date' => 'monthly','offset' => 'int','limit' => 'int']);
+            $response = Request::sendApiRequest('GET', self::PATH . '/monthly', $data);
             return $response->getContents();
         }catch (ClientException $e) {
             $response = $e->getResponse();
@@ -122,5 +121,4 @@ class TransactionHistory extends PayFastBase
             throw new RuntimeException($e);
         }
     }
-
 }

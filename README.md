@@ -1,6 +1,6 @@
 # PayFast PHP SDK
 
-The PayFast PHP SDK provides an easy to use library for integrating PayFast payments into your project.
+The PayFast PHP SDK provides an easy-to-use library for integrating PayFast payments into your project.
 This includes Custom Integration, Onsite Integration and all APIs.
 
 ## Requirements
@@ -165,13 +165,13 @@ try {
         ]
     );
 
-    $rangeArray = $api->transactionHistory->range(['from' => '2020-08-01', 'to' => '2020-08-07']);
+    $rangeArray = $api->transactionHistory->range(['from' => '2020-08-01', 'to' => '2020-08-07', 'offset' => 0, 'limit' => 1000]);
     
-    $dailyArray = $api->transactionHistory->daily(['date' => '2020-08-07']);
+    $dailyArray = $api->transactionHistory->daily(['date' => '2020-08-07', 'offset' => 0, 'limit' => 1000]);
     
-    $weeklyArray = $api->transactionHistory->weekly(['date' => '2020-08-07']);
+    $weeklyArray = $api->transactionHistory->weekly(['date' => '2020-08-07', 'offset' => 0, 'limit' => 1000]);
     
-    $monthlyArray = $api->transactionHistory->monthly(['date' => '2020-08']);
+    $monthlyArray = $api->transactionHistory->monthly(['date' => '2020-08', 'offset' => 0, 'limit' => 1000]);
 
 } catch(Exception $e) {
     echo 'There was an exception: '.$e->getMessage();
