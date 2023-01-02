@@ -8,7 +8,6 @@ class AuthTest extends TestCase
     {
         $keys = array_keys($array);
         shuffle($keys);
-        print_r($data);
         $new = [];
         foreach ($keys as $key)
         {
