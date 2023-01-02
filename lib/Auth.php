@@ -57,28 +57,21 @@ class Auth
             'name_first', 'name_last', 'email_address', 'cell_number', 'm_payment_id', 'amount', 'item_name',
             'item_description', 'custom_int1', 'custom_int2', 'custom_int3', 'custom_int4', 'custom_int5',
             'custom_str1', 'custom_str2', 'custom_str3', 'custom_str4', 'custom_str5', 'email_confirmation',
-            'confirmation_address', 'currency', 'payment_method', 'subscription_type', 'passphrase',
+            'confirmation_address', 'currency', 'payment_method', 'subscription_type', 
             'billing_date', 'recurring_amount', 'frequency', 'cycles', 'subscription_notify_email',
-            'subscription_notify_webhook', 'subscription_notify_buyer'];
-
-        $sortAttributes = array_filter($data, function ($key) use ($fields) {
-            return in_array($key, $fields);
-        }, ARRAY_FILTER_USE_KEY);
-
-        if($passPhrase !== null && $passPhrase !== '') {
-            $sortAttributes['passphrase'] = urlencode(trim($passPhrase));
-        }
+            'subscription_notify_webhook', 'subscription_notify_buyer', 'passphrase'];
 
         // Some functionality requires the passphrase to be set
         if (isset($data['subscription_type']) && ($passPhrase === null || $passPhrase === '')) {
             throw new InvalidRequestException('Subscriptions require a passphrase to be set', 400);
         }
-
+        $data['passphrase'] = $passPhrase;
+        
         // Create parameter string
         $pfOutput = '';
-        foreach($sortAttributes as $attribute => $value) {
-            if(!empty($value)) {
-                $pfOutput .= $attribute .'='. urlencode(trim($value)) .'&';
+        foreach ($fields as $attribute) {
+            if (!empty($data[$attribute])) {
+                $pfOutput .= $attribute .'='. urlencode(trim($data[$attribute])) .'&';
             }
         }
         // Remove last ampersand
