@@ -226,10 +226,16 @@ try {
 }
 ```
 
-#### Testing for package developers
+## Testing for package developers
 
 If you implement a new feature, write corresponding unit tests that will uncover bugs, e.g. if you write a function that generates a signature, write a unit test that validates the signature.
-Once you made changes - be sure to run the unit tests. 
+Once you made changes - be sure to run all the unit tests. 
 
-To run unit `phpunit --bootstrap vendor/autoload.php tests/`.
+In the root directory, first run (only once)
+
+```composer i```
+
+and to run tests, use 
+
+```phpunit --bootstrap vendor/autoload.php tests/```.
 
