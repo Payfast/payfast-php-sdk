@@ -70,7 +70,7 @@ class Auth
         // Create parameter string
         $pfOutput = '';
         foreach ($fields as $attribute) {
-            if (!empty($data[$attribute])) {
+            if (isset($data[$attribute])) {
                 $pfOutput .= $attribute .'='. urlencode(trim($data[$attribute])) .'&';
             }
         }

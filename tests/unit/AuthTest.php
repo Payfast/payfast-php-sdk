@@ -18,18 +18,33 @@ class AuthTest extends TestCase
     public function testGenerateSignatureOrdering()
     {
         $data = array(
-            'email_address' => 'test@test.com',
-            'merchant_key' => '46f0cd694581a',
-            'notify_url' => 'http://www.example.com/notify_url',
-            'name_first' => 'First',
-            'name_last' => 'Last',
-            'cancel_url' => 'http://www.example.com/cancel_url',
-            'return_url' => 'http://www.example.com/return_url',
-            'merchant_id' => '10000100',
+            'merchant_id'          => 10028084,
+            'merchant_key'         => '4hjoenwbwnuso',
+            'subscription_type'    => 1,
+            'm_payment_id'         => '5',
+            'amount'               => '5.00',
+            'recurring_amount'     => '5',
+            'billing_date'         => '2023-01-01',
+            'frequency'            => 3,
+            'cycles'               => 0,
+            'custom_str1'          => rtrim(base64_encode('Some Test String'), '='),
+            'custom_int1'          => 1,
+            'custom_int2'          => 1,
+            'custom_str2'          => rtrim(base64_encode('Another Test String'), '='),
+            'item_name'            => 'Test',
+            'name_last'            => 'Test',
+            'name_first'           => 'Test',
+            'email_address'        => 'test@test.com',
+            'confirmation_address' => 'test@test.test',
+            'email_confirmation'   => 1,
+            'return_url'           => 'https://test.com/billing/success',
+            'cancel_url'           => 'https://test.com/billing/cancel',
+            'notify_url'           => 'https://test.com/payfast/webhook'
         );
+
         // signature should generated using the correct order
-        $signature =  Auth::generateSignature($this->shuffleArrayPreserveKeys($data), $passPhrase = 'test');
-        $this->assertTrue("539985d720d80597ed4a1a994871f388" === $signature);
+        $signature =  Auth::generateSignature($this->shuffleArrayPreserveKeys($data), $passPhrase = 'payfastsandbox');
+        $this->assertTrue("3441682c5d8a65486f5b7cc8ce41d146" === $signature);
     }
 }
 ?>
