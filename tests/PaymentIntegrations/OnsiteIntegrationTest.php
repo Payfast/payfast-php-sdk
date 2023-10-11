@@ -1,8 +1,8 @@
 <?php
 declare(strict_types=1);
 
-use PayFast\Exceptions\InvalidRequestException;
-use PayFast\PayFastPayment;
+use Payfast\Exceptions\InvalidRequestException;
+use Payfast\PayfastPayment;
 use PHPUnit\Framework\TestCase;
 
 final class OnsiteIntegrationTest extends TestCase
@@ -13,7 +13,7 @@ final class OnsiteIntegrationTest extends TestCase
 
     public static function setUpBeforeClass(): void
     {
-        self::$payFastPayment = new PayFastPayment([
+        self::$payFastPayment = new PayfastPayment([
             'merchantId' => '10000100',
             'merchantKey' => '46f0cd694581a',
             'passPhrase' => '',

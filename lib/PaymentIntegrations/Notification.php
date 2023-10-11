@@ -1,20 +1,20 @@
 <?php
 
 
-namespace PayFast\PaymentIntegrations;
+namespace Payfast\PaymentIntegrations;
 
 
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
-use PayFast\Exceptions\InvalidRequestException;
-use PayFast\PayFastBase;
-use PayFast\PayFastPayment;
+use Payfast\Exceptions\InvalidRequestException;
+use Payfast\PayfastBase;
+use Payfast\PayfastPayment;
 use Psr\Http\Message\StreamInterface;
 use RuntimeException;
 
-class Notification extends PayFastBase
+class Notification extends PayfastBase
 {
 
     /**
@@ -29,7 +29,7 @@ class Notification extends PayFastBase
         $pfData = $this->cleanNotificationData($pfData);
         $pfParamString = $this->dataToString($pfData);
 
-        $check1 = $this->pfValidSignature($pfData, $pfParamString, PayFastPayment::$passPhrase);
+        $check1 = $this->pfValidSignature($pfData, $pfParamString, PayfastPayment::$passPhrase);
         $check2 = $this->pfValidIP();
         $check3 = $this->pfValidData($pfData, $checks);
         $check4 = $this->pfValidServerConfirmation($pfParamString);
@@ -77,7 +77,7 @@ class Notification extends PayFastBase
      */
     private function pfValidSignature( $pfData, $pfParamString, $pfPassphrase = null ): bool {
         if(!isset($pfData['signature'])) {
-            PayFastPayment::$errorMsg[] = "Invalid signature";
+            PayfastPayment::$errorMsg[] = "Invalid signature";
             return false;
         }
         // Calculate security signature
@@ -89,19 +89,19 @@ class Notification extends PayFastBase
 
         $signature = md5( $tempParamString );
         if($pfData['signature'] !== $signature) {
-            PayFastPayment::$errorMsg[] = "Invalid signature";
+            PayfastPayment::$errorMsg[] = "Invalid signature";
         }
-        return ( $pfData['signature'] === $signature );
+        return $pfData['signature'] === $signature;
     }
 
     /**
-     * Check that the notification has come from a valid PayFast domain
+     * Check that the notification has come from a valid Payfast domain
      * @return bool
      */
     private function pfValidIP(): bool
     {
         if(!isset($_SERVER['HTTP_REFERER'])) {
-            PayFastPayment::$errorMsg[] = "This notification does not come from a valid PayFast domain";
+            PayfastPayment::$errorMsg[] = "This notification does not come from a valid Payfast domain";
             return false;
         }
 
@@ -129,7 +129,7 @@ class Notification extends PayFastBase
         if (in_array($referrerIp, $validIps, true)) {
             return true;
         }
-        PayFastPayment::$errorMsg[] = "This notification does not come from a valid PayFast domain";
+        PayfastPayment::$errorMsg[] = "This notification does not come from a valid Payfast domain";
         return false;
     }
 
@@ -141,30 +141,56 @@ class Notification extends PayFastBase
      */
     private function pfValidData($pfData, array $checks = []): bool
     {
+        $reponse = true;
         if(!empty($checks)) {
             foreach($checks as $k => $v) {
                 if($k === 'amount_gross') {
-                    if (!isset($pfData['amount_gross'])) {
-                        PayFastPayment::$errorMsg[] = "Parameter 'amount_gross' does not exist in the post data";
-                        return false;
-                    }
-                    if(abs((float)$v - (float)$pfData['amount_gross']) > 0.01) {
-                        PayFastPayment::$errorMsg[] = "The 'amount_gross' is ".$pfData['amount_gross'].", you expected ".$v;
-                        return false;
-                    }
+                    $reponse = $this->pfValidationProcessAmountGrossParameter($pfData, $reponse, $v);
                 } else {
-                    if (!isset($pfData[$k])) {
-                        PayFastPayment::$errorMsg[] = "Parameter '".$k."' does not exist in the post data";
-                        return false;
-                    }
-                    if($pfData[$k] !== $v) {
-                        PayFastPayment::$errorMsg[] = "The '".$k."' is ".$pfData[$k].", you expected ".$v;
-                        return false;
-                    }
+                    $reponse = $this->pfValidationProcessOtherParameters($pfData, $reponse, $k, $v);
                 }
             }
         }
-        return true;
+        return $reponse;
+    }
+
+    /**
+     * Compare returned data
+     * @param $pfData
+     * @param $reponse
+     * @return bool
+     */
+    private function pfValidationProcessAmountGrossParameter($pfData, $reponse, $v): bool
+    {
+        if (!isset($pfData['amount_gross'])) {
+            PayfastPayment::$errorMsg[] = "Parameter 'amount_gross' does not exist in the post data";
+            $reponse = false;
+        }
+        if(abs((float)$v - (float)$pfData['amount_gross']) > 0.01) {
+            PayfastPayment::$errorMsg[] = "The 'amount_gross' is
+                            ".$pfData['amount_gross'].", you expected ".$v;
+            $reponse = false;
+        }
+        return $reponse;
+    }
+
+    /**
+     * Compare returned data
+     * @param $pfData
+     * @param $reponse
+     * @return bool
+     */
+    private function pfValidationProcessOtherParameters($pfData, $reponse, $k, $v): bool
+    {
+        if (!isset($pfData[$k])) {
+            PayfastPayment::$errorMsg[] = "Parameter '".$k."' does not exist in the post data";
+            $reponse = false;
+        }
+        if($pfData[$k] !== $v) {
+            PayfastPayment::$errorMsg[] = "The '".$k."' is ".$pfData[$k].", you expected ".$v;
+            $reponse = false;
+        }
+        return $reponse;
     }
 
     /**
@@ -176,7 +202,7 @@ class Notification extends PayFastBase
      */
     private function pfValidServerConfirmation($pfParamString) {
         try {
-            $client = new Client(['base_uri' => PayFastPayment::$baseUrl.'/']);
+            $client = new Client(['base_uri' => PayfastPayment::$baseUrl.'/']);
             $response = $client->request('POST', 'eng/query/validate', [
                 'headers'  => ['content-type' => 'application/x-www-form-urlencoded'],
                 'body' => $pfParamString
@@ -184,13 +210,13 @@ class Notification extends PayFastBase
             if ((string)$response->getBody() === 'VALID') {
                 return true;
             }
-            PayFastPayment::$errorMsg[] = 'Invalid server confirmation';
+            PayfastPayment::$errorMsg[] = 'Invalid server confirmation';
             return false;
         } catch (ClientException $e) {
             $response = $e->getResponse();
             throw new InvalidRequestException($response->getBody()->getContents(), 400);
         } catch (GuzzleException $e) {
-            throw new RuntimeException($e);
+            throw new InvalidArgumentException($e);
         }
     }
 

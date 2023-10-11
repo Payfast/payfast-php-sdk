@@ -1,27 +1,27 @@
 <?php
 
-namespace PayFast;
+namespace Payfast;
 
 use Exception;
-use PayFast\Exceptions\InvalidRequestException;
+use Payfast\Exceptions\InvalidRequestException;
 
 /**
- * Class PayFast
+ * Class Payfast
  * @property mixed custom
  * @property mixed onsite
  * @property mixed notification
- * @package PayFast
+ * @package Payfast
  */
-class PayFastPayment
+class PayfastPayment
 {
 
     /** @var string Base URL for the API */
     public static $baseUrl;
 
-    /** @var integer The merchant ID as given by the PayFast system */
+    /** @var integer The merchant ID as given by the Payfast system */
     public static $merchantId;
 
-    /** @var integer The merchant Key as given by the PayFast system */
+    /** @var integer The merchant Key as given by the Payfast system */
     public static $merchantKey;
 
     /** @var string The passphrase is used to salt the signature */
@@ -34,7 +34,7 @@ class PayFastPayment
     public static $errorMsg = [];
 
     /**
-     * PayFastPayment constructor.
+     * PayfastPayment constructor.
      * @param $setup
      * @throws InvalidRequestException
      */
@@ -65,7 +65,7 @@ class PayFastPayment
         if ($class !== null) {
             return new $class;
         } else {
-            throw new Exception("Unknown method");
+            throw new InvalidArgumentException("Unknown method");
         }
     }
 

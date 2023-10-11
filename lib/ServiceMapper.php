@@ -1,15 +1,15 @@
 <?php
 
 
-namespace PayFast;
+namespace Payfast;
 
-use PayFast\PaymentIntegrations\CustomIntegration;
-use PayFast\PaymentIntegrations\Notification;
-use PayFast\PaymentIntegrations\OnsiteIntegration;
-use PayFast\Services\CreditCardTransactions;
-use PayFast\Services\Refunds;
-use PayFast\Services\Subscriptions;
-use PayFast\Services\TransactionHistory;
+use Payfast\PaymentIntegrations\CustomIntegration;
+use Payfast\PaymentIntegrations\Notification;
+use Payfast\PaymentIntegrations\OnsiteIntegration;
+use Payfast\Services\CreditCardTransactions;
+use Payfast\Services\Refunds;
+use Payfast\Services\Subscriptions;
+use Payfast\Services\TransactionHistory;
 
 class ServiceMapper
 {

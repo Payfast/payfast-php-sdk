@@ -14,9 +14,9 @@
         <h2>Custom Checkout Demo</h2>
         <h5>Order #000001</h5>
         <ul class='order-list'>
-            <li><img src='https://via.placeholder.com/150'><h4>Product 1</h4><h5>R2</h5></li>
-            <li><img src='https://via.placeholder.com/150'><h4>Product 2</h4><h5>R1</h5></li>
-            <li><img src='https://via.placeholder.com/150'><h4>Product 3</h4><h5>R1</h5></li>
+            <li><img src='https://via.placeholder.com/150' alt="Product 1 image"><h4>Product 1</h4><h5>R2</h5></li>
+            <li><img src='https://via.placeholder.com/150' alt="Product 2 image"><h4>Product 2</h4><h5>R1</h5></li>
+            <li><img src='https://via.placeholder.com/150' alt="Product 3 image"><h4>Product 3</h4><h5>R1</h5></li>
         </ul>
         <h5>Shipping</h5><h4>R 1.00</h4>
         <h5 class='total'>Total</h5><h1>R 5.00</h1>

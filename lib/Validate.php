@@ -1,10 +1,10 @@
 <?php
 
 
-namespace PayFast;
+namespace Payfast;
 
 
-use PayFast\Exceptions\InvalidRequestException;
+use Payfast\Exceptions\InvalidRequestException;
 
 class Validate
 {
@@ -77,6 +77,8 @@ class Validate
                             break;
                         case 'accType':
                             self::validateAccType($value, $attribute);
+                            break;
+                        default:
                             break;
                     }
                 }

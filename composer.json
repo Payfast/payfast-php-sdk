@@ -1,6 +1,6 @@
 {
     "name": "payfast/payfast-php-sdk",
-    "description": "PayFast PHP Library",
+    "description": "Payfast PHP Library",
     "keywords": [
         "payfast",
         "api",
@@ -11,19 +11,19 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Claire Grant",
-            "email": "claire.grant@payfast.co.za"
+            "name": "Payfast",
+            "email": "support@payfast.help"
         }
     ],
     "minimum-stability": "stable",
     "require": {
-        "php": ">=7.2.5",
+        "php": ">=8.1",
         "guzzlehttp/guzzle": ">=6.0.0",
         "ext-json": "*"
     },
     "autoload": {
         "psr-4": {
-            "PayFast\\": "lib/"
+            "Payfast\\": "lib/"
         }
     },
     "require-dev": {

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace PayFast\Exceptions;
+namespace Payfast\Exceptions;
 
 
 use Exception;

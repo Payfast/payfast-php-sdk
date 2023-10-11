@@ -1,21 +1,22 @@
 <?php
 
 
-namespace PayFast\Services;
+namespace Payfast\Services;
 
 
 use Exception;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
-use PayFast\Exceptions\InvalidRequestException;
-use PayFast\PayFastBase;
-use PayFast\Request;
-use PayFast\Validate;
+use Payfast\Exceptions\InvalidRequestException;
+use Payfast\PayfastBase;
+use Payfast\Request;
+use Payfast\Validate;
 
-class Subscriptions extends PayFastBase
+class Subscriptions extends PayfastBase
 {
 
     private const PATH = 'subscriptions';
+     const TOKEN_MISSING = 'Required "token" parameter missing';
 
     /**
      * Fetch a subscription
@@ -26,7 +27,7 @@ class Subscriptions extends PayFastBase
      */
     public function fetch($token = null) : array {
         if($token === null){
-            throw new InvalidRequestException('Required "token" parameter missing', 400);
+            throw new InvalidRequestException(TOKEN_MISSING, 400);
         }
         try {
             $response = Request::sendApiRequest('GET', self::PATH.'/'.$token.'/fetch');
@@ -50,7 +51,7 @@ class Subscriptions extends PayFastBase
      */
     public function pause($token = null, array $options = []) : array {
         if($token === null){
-            throw new InvalidRequestException('Required "token" parameter missing', 400);
+            throw new InvalidRequestException(TOKEN_MISSING, 400);
         }
         try {
             Validate::validateOptions($options, ['cycles' => 'int']);
@@ -72,7 +73,7 @@ class Subscriptions extends PayFastBase
      */
     public function unpause($token = null) : array {
         if($token === null){
-            throw new InvalidRequestException('Required "token" parameter missing', 400);
+            throw new InvalidRequestException(TOKEN_MISSING, 400);
         }
         try {
             $response = Request::sendApiRequest('PUT', self::PATH.'/'.$token.'/unpause');
@@ -93,7 +94,7 @@ class Subscriptions extends PayFastBase
      */
     public function cancel($token = null) : array {
         if($token === null){
-            throw new InvalidRequestException('Required "token" parameter missing', 400);
+            throw new InvalidRequestException(TOKEN_MISSING, 400);
         }
         try {
             $response = Request::sendApiRequest('PUT', self::PATH.'/'.$token.'/cancel');
@@ -115,10 +116,13 @@ class Subscriptions extends PayFastBase
      */
     public function update($token = null, array $options = []) : array {
         if($token === null){
-            throw new InvalidRequestException('Required "token" parameter missing', 400);
+            throw new InvalidRequestException(TOKEN_MISSING, 400);
         }
         try {
-            Validate::validateOptions($options, ['cycles' => 'int','frequency' => 'int','run_date' => 'date','amount' => 'int']);
+            Validate::validateOptions($options, ['cycles' => 'int',
+                'frequency' => 'int',
+                'run_date' => 'date',
+                'amount' => 'int']);
             $response = Request::sendApiRequest('PATCH', self::PATH.'/'.$token.'/update', [], $options);
             return json_decode($response->getContents(), true);
         }catch (ClientException $e) {
@@ -129,7 +133,8 @@ class Subscriptions extends PayFastBase
 
     /**
      * Charge a tokenization payment
-     * $payfast->subscriptions->adhoc('290ac9a6-25f1-cce4-5801-67a644068818', ['amount' => 500, 'item_name' => 'Test adhoc']);
+     * $payfast->subscriptions->adhoc('290ac9a6-25f1-cce4-5801-67a644068818', ['amount' => 500,
+     * 'item_name' => 'Test adhoc']);
      * @param null $token
      * @param array $options
      * @return array
@@ -138,7 +143,7 @@ class Subscriptions extends PayFastBase
      */
     public function adhoc($token = null, array $options = []) : array {
         if($token === null){
-            throw new InvalidRequestException('Required "token" parameter missing', 400);
+            throw new InvalidRequestException(TOKEN_MISSING, 400);
         }
         if(!isset($options['amount'])){
             throw new InvalidRequestException('Required "amount" parameter missing', 400);
