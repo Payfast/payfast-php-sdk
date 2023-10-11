@@ -1,20 +1,20 @@
 <?php
 
 
-namespace PayFast\PaymentIntegrations;
+namespace Payfast\PaymentIntegrations;
 
 
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
-use PayFast\Auth;
-use PayFast\Exceptions\InvalidRequestException;
-use PayFast\PayFastBase;
-use PayFast\PayFastPayment;
+use Payfast\Auth;
+use Payfast\Exceptions\InvalidRequestException;
+use Payfast\PayfastBase;
+use Payfast\PayfastPayment;
 use RuntimeException;
 
-class OnsiteIntegration extends PayFastBase
+class OnsiteIntegration extends PayfastBase
 {
 
     private const PATH = 'onsite/process';
@@ -41,24 +41,24 @@ class OnsiteIntegration extends PayFastBase
      */
     public function generatePaymentIdentifier($data)
     {
-        if(PayFastPayment::$testMode === true) {
+        if(PayfastPayment::$testMode === true) {
             throw new InvalidRequestException('Sorry but Onsite is not available in Sandbox mode', 400);
         }
 
         $authDetails = [
-            'merchant_id' => PayFastPayment::$merchantId,
-            'merchant_key' => PayFastPayment::$merchantKey
+            'merchant_id' => PayfastPayment::$merchantId,
+            'merchant_key' => PayfastPayment::$merchantKey
         ];
         $data = array_merge($authDetails, $data);
 
         // Generate signature
-        $data["signature"] = Auth::generateSignature($data, PayFastPayment::$passPhrase);
+        $data["signature"] = Auth::generateSignature($data, PayfastPayment::$passPhrase);
 
         // Convert the data array to a string
         $pfParamString = $this->dataToString($data);
 
         try {
-            $client = new Client(['base_uri' => PayFastPayment::$baseUrl.'/']);
+            $client = new Client(['base_uri' => PayfastPayment::$baseUrl.'/']);
             $response = $client->request('POST', self::PATH, [
                 'headers'  => ['content-type' => 'application/x-www-form-urlencoded'],
                 'body' => $pfParamString
@@ -72,7 +72,7 @@ class OnsiteIntegration extends PayFastBase
             $response = $e->getResponse();
             throw new InvalidRequestException($response->getBody()->getContents(), 400);
         } catch (GuzzleException $e) {
-            throw new RuntimeException($e);
+            throw new InvalidArgumentException($e);
         }
 
     }

@@ -1,27 +1,30 @@
 <?php
 
 
-namespace PayFast\Services;
+namespace Payfast\Services;
 
 
 use Exception;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
-use PayFast\Exceptions\InvalidRequestException;
-use PayFast\PayFastBase;
-use PayFast\Request;
-use PayFast\Validate;
+use Payfast\Exceptions\InvalidRequestException;
+use Payfast\PayfastBase;
+use Payfast\Request;
+use Payfast\Validate;
 use RuntimeException;
 
-class TransactionHistory extends PayFastBase
+class TransactionHistory extends PayfastBase
 {
 
     private const PATH = 'transactions/history';
-
+    const DATE_MISSING = 'Required "date" parameter missing';
 
     /**
      * Transaction history
-     * $payfast->transactionHistory->range(['from' => '2020-08-01', 'to' => '2020-08-07', 'offset' => 0, 'limit' => 1000]);
+     * $payfast->transactionHistory->range(['from' => '2020-08-01',
+     * 'to' => '2020-08-07',
+     * 'offset' => 0,
+     * 'limit' => 1000]);
      * @param $data
      * @return string
      * @throws InvalidRequestException
@@ -34,11 +37,9 @@ class TransactionHistory extends PayFastBase
         }
         try {
             Validate::validateOptions($data, ['from' => 'date', 'to' => 'date', 'offset' => 'int','limit' => 'int']);
-            if(isset($data['to'])) {
-                if($data['to'] < $data['from']) {
-                    $queryParam['to'] = $data['from'];
-                    $queryParam['from'] = $data['to'];
-                }
+            if(isset($data['to']) && $data['to'] < $data['from']) {
+                $queryParam['to'] = $data['from'];
+                $queryParam['from'] = $data['to'];
             }
             $response = Request::sendApiRequest('GET', self::PATH, $queryParam);
             return $response->getContents();
@@ -46,7 +47,7 @@ class TransactionHistory extends PayFastBase
             $response = $e->getResponse();
             throw new InvalidRequestException($response->getBody()->getContents(), 400);
         } catch (GuzzleException $e) {
-            throw new RuntimeException($e);
+            throw new InvalidArgumentException($e);
         }
     }
 
@@ -60,7 +61,7 @@ class TransactionHistory extends PayFastBase
      */
     public function daily($data) : string {
         if(!isset($data['date'])){
-            throw new InvalidRequestException('Required "date" parameter missing', 400);
+            throw new InvalidRequestException(DATE_MISSING, 400);
         }
         try {
             Validate::validateOptions($data, ['date' => 'date','offset' => 'int','limit' => 'int']);
@@ -70,7 +71,7 @@ class TransactionHistory extends PayFastBase
             $response = $e->getResponse();
             throw new InvalidRequestException($response->getBody()->getContents(), 400);
         } catch (GuzzleException $e) {
-            throw new RuntimeException($e);
+            throw new InvalidArgumentException($e);
         }
     }
 
@@ -84,7 +85,7 @@ class TransactionHistory extends PayFastBase
      */
     public function weekly($data) : string {
         if(!isset($data['date'])){
-            throw new InvalidRequestException('Required "date" parameter missing', 400);
+            throw new InvalidRequestException(DATE_MISSING, 400);
         }
         try {
             Validate::validateOptions($data, ['date' => 'date','offset' => 'int','limit' => 'int']);
@@ -94,7 +95,7 @@ class TransactionHistory extends PayFastBase
             $response = $e->getResponse();
             throw new InvalidRequestException($response->getBody()->getContents(), 400);
         } catch (GuzzleException $e) {
-            throw new RuntimeException($e);
+            throw new InvalidArgumentException($e);
         }
     }
 
@@ -108,7 +109,7 @@ class TransactionHistory extends PayFastBase
      */
     public function monthly($data) : string {
         if(!isset($data['date'])){
-            throw new InvalidRequestException('Required "date" parameter missing', 400);
+            throw new InvalidRequestException(DATE_MISSING, 400);
         }
         try {
             Validate::validateOptions($data, ['date' => 'monthly','offset' => 'int','limit' => 'int']);
@@ -118,7 +119,7 @@ class TransactionHistory extends PayFastBase
             $response = $e->getResponse();
             throw new InvalidRequestException($response->getBody()->getContents(), 400);
         } catch (GuzzleException $e) {
-            throw new RuntimeException($e);
+            throw new InvalidArgumentException($e);
         }
     }
 }

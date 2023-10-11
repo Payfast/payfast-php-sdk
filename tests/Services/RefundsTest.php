@@ -1,8 +1,8 @@
 <?php
 declare(strict_types=1);
 
-use PayFast\Exceptions\InvalidRequestException;
-use PayFast\PayFastApi;
+use Payfast\Exceptions\InvalidRequestException;
+use Payfast\PayfastApi;
 use PHPUnit\Framework\TestCase;
 
 final class RefundsTest extends TestCase
@@ -14,7 +14,7 @@ final class RefundsTest extends TestCase
     public static function setUpBeforeClass(): void
     {
         try {
-            self::$api = new PayFastApi(
+            self::$api = new PayfastApi(
                 [
                     'merchantId' => '10026755',
                     'passPhrase' => 'test_sandbox',

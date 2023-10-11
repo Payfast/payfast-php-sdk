@@ -1,11 +1,11 @@
 <?php
 
 
-namespace PayFast;
+namespace Payfast;
 
 use Exception;
 
-class PayFastBase
+class PayfastBase
 {
 
     /**
@@ -15,7 +15,7 @@ class PayFastBase
      */
     public function __call($name, $arguments) {
         if (!method_exists($this, $name)) {
-            throw new \RuntimeException('Unknown method '.$name);
+            throw new \InvalidArgumentException('Unknown method ' . $name . ' arguments: ' . $arguments);
         }
     }
 

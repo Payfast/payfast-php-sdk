@@ -1,9 +1,9 @@
 <?php
 
-namespace PayFast;
+namespace Payfast;
 
 
-use PayFast\Exceptions\InvalidRequestException;
+use Payfast\Exceptions\InvalidRequestException;
 
 class Auth
 {

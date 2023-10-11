@@ -1,25 +1,25 @@
 <?php
 
-namespace PayFast;
+namespace Payfast;
 
 use Exception;
-use PayFast\Exceptions\InvalidRequestException;
+use Payfast\Exceptions\InvalidRequestException;
 use RuntimeException;
 
 /**
- * Class PayFast
+ * Class Payfast
  * @property mixed subscriptions
  * @property mixed transactionHistory
  * @property mixed creditCardTransactions
- * @package PayFast
+ * @package Payfast
  */
-class PayFastApi
+class PayfastApi
 {
 
     /** @var string Base URL for the API */
     public static $apiUrl = 'https://api.payfast.co.za';
 
-    /** @var integer The merchant ID as given by the PayFast system */
+    /** @var integer The merchant ID as given by the Payfast system */
     public static $merchantId;
 
     /** @var string The passphrase is used to salt the signature */
@@ -32,7 +32,7 @@ class PayFastApi
     public static $testMode;
 
     /**
-     * PayFastApi constructor.
+     * PayfastApi constructor.
      * @param $setup
      * @throws InvalidRequestException
      */
@@ -59,7 +59,7 @@ class PayFastApi
             return new $class;
         }
 
-        throw new RuntimeException("Unknown method");
+        throw new InvalidArgumentException("Unknown method");
     }
 
 }

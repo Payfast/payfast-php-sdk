@@ -1,9 +1,10 @@
 <?php
 
-namespace PayFast;
+namespace Payfast;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use InvalidArgumentException;
 use Psr\Http\Message\StreamInterface;
 
 class Request
@@ -19,14 +20,14 @@ class Request
      * @throws GuzzleException
      */
     public static function sendApiRequest(string $method, string $uri, array $queryParams=[], array $jsonData=[]) {
-        $client = new Client(['base_uri' => PayFastApi::$apiUrl.'/']);
+        $client = new Client(['base_uri' => PayfastApi::$apiUrl.'/']);
 
         $params = [];
 
         if(!empty($queryParams)) {
             $params['query'] = $queryParams;
         }
-        if(PayFastApi::$testMode === true){
+        if(PayfastApi::$testMode === true){
             $params['query']['testing'] = 'true';
         }
 
@@ -35,14 +36,14 @@ class Request
         }
 
         $params['headers'] = [
-            'merchant-id' => PayFastApi::$merchantId,
-            'version'     => PayFastApi::$version,
+            'merchant-id' => PayfastApi::$merchantId,
+            'version'     => PayfastApi::$version,
             'timestamp'   => date("Y-m-d\TH:i:sO")
         ];
 
         $signatureData = array_merge($params['headers'], $queryParams, $jsonData);
 
-        $signature = Auth::generateApiSignature($signatureData, PayFastApi::$passPhrase);
+        $signature = Auth::generateApiSignature($signatureData, PayfastApi::$passPhrase);
 
         $params['headers']['signature'] = $signature;
 
@@ -50,7 +51,7 @@ class Request
             $response = $client->request($method, $uri, $params);
             return $response->getBody();
         } catch (GuzzleException $e) {
-            throw $e;
+            throw new InvalidArgumentException($e);
         }
     }
 

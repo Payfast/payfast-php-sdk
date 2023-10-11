@@ -186,6 +186,10 @@ ul.order-list li:hover > h4 {
     margin-top: 8px;
 }
 
+#price {
+    border: 1px solid #000;
+}
+
 ul.order-list li > h5 {
     margin-top: 0px;
     text-align: right;

@@ -1,18 +1,18 @@
 <?php
 
 
-namespace PayFast\Services;
+namespace Payfast\Services;
 
 
 use Exception;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
-use PayFast\Exceptions\InvalidRequestException;
-use PayFast\PayFastBase;
-use PayFast\Request;
+use Payfast\Exceptions\InvalidRequestException;
+use Payfast\PayfastBase;
+use Payfast\Request;
 use RuntimeException;
 
-class CreditCardTransactions extends PayFastBase
+class CreditCardTransactions extends PayfastBase
 {
 
     private const PATH = 'process/query';
@@ -35,7 +35,7 @@ class CreditCardTransactions extends PayFastBase
             $response = $e->getResponse();
             throw new InvalidRequestException($response->getBody()->getContents(), 400);
         } catch (GuzzleException $e) {
-            throw new RuntimeException($e);
+            throw new InvalidArgumentException($e);
         }
     }
 

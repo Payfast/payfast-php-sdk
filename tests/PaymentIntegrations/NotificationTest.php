@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-use PayFast\PayFastPayment;
+use Payfast\PayfastPayment;
 use PHPUnit\Framework\TestCase;
 
 final class NotificationTest extends TestCase
@@ -12,7 +12,7 @@ final class NotificationTest extends TestCase
 
     public static function setUpBeforeClass(): void
     {
-        self::$payFastPayment = new PayFastPayment([
+        self::$payFastPayment = new PayfastPayment([
             'merchantId' => '10000100',
             'merchantKey' => '46f0cd694581a',
             'passPhrase' => '',

@@ -92,7 +92,7 @@ h5.total {
 }
 
 h6 {
-    font-family: 'PT Mono';
+    font-family: 'PT Mono', sans-serif;
     font-size: 18px;
     font-weight: 400;
     color: #f4f5f9;
@@ -215,7 +215,7 @@ input[type=text] {
     background-color: transparent;
     border: none;
     color: #000;
-    font-family: 'PT Mono';
+    font-family: 'PT Mono', sans-serif;
     font-size: 18px;
     font-weight: 400;
     z-index: 0;

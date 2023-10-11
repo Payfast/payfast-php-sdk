@@ -5,20 +5,11 @@ use Payfast\PayfastPayment;
 
 $amount = '5.00';
 
-$payfast = new PayfastPayment(
-    [
-        'merchantId' => '10000100',
-        'merchantKey' => '46f0cd694581a',
-        'passPhrase' => 'jt7NOE43FZPn',
-        'testMode' => true
-    ]
-);
-
 $data = [
     // Merchant details
-    'return_url' => 'https://www.example.com/return.php',
-    'cancel_url' => 'https://www.example.com/cancel.php',
-    'notify_url' => 'https://www.example.com/notify.php',
+    'return_url' => 'https://yoursite.com/return.php', // Requires HTTPS
+    'cancel_url' => 'https://yoursite.com/cancel.php', // Requires HTTPS
+    'notify_url' => 'https://yoursite.com/notify.php', // Requires HTTPS
     // Buyer details
     'name_first' => 'First Name',
     'name_last'  => 'Last Name',
@@ -28,8 +19,6 @@ $data = [
     'amount' => $amount,
     'item_name' => 'Order#123'
 ];
-
-$htmlForm = $payfast->custom->createFormFields($data, ['value' => 'PLEASE PAY', 'class' => 'button-cta']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -37,6 +26,7 @@ $htmlForm = $payfast->custom->createFormFields($data, ['value' => 'PLEASE PAY', 
     <meta charset="UTF-8">
     <title>Checkout</title>
     <link rel="stylesheet" href="css/main.css">
+    <script src="https://www.payfast.co.za/onsite/engine.js"></script>
 </head>
 <body>
 
@@ -44,7 +34,7 @@ $htmlForm = $payfast->custom->createFormFields($data, ['value' => 'PLEASE PAY', 
 
 <div class='checkout'>
     <div class='order'>
-        <h2>Custom Checkout Demo</h2>
+        <h2>Onsite Checkout Demo</h2>
         <h5>Order #000001</h5>
         <ul class='order-list'>
             <li><img src='https://via.placeholder.com/150' alt="Product 1 image"><h4>Product 1</h4><h5>R2</h5></li>
@@ -54,10 +44,33 @@ $htmlForm = $payfast->custom->createFormFields($data, ['value' => 'PLEASE PAY', 
         <h5>Shipping</h5><h4>R 1.00</h4>
         <h5 class='total'>Total</h5><h1>R <?= $amount ;?></h1>
 
-        <?= $htmlForm ;?>
+        <form method="post" action="index.php">
+            <input type="submit" class="button-cta" name="paynow" value="PAY NOW">
+        </form>
 
     </div>
 </div>
+
+<?php
+if(isset($_POST['paynow'])) {
+    try {
+        $payfast = new PayfastPayment(
+            [
+                'merchantId' => '10000100',
+                'merchantKey' => '46f0cd694581a',
+                'passPhrase' => 'jt7NOE43FZPn',
+                'testMode' => false
+            ]
+        );
+
+        echo $payfast->custom->createCardUpdateLink('b0ea1afa-f04e-4d3e-9d65-7eeeb38b1dfe',
+            'https://www.example.com/return', 'Update your card', ['target' => '_blank']);
+
+    } catch(Exception $e) {
+        echo 'There was an exception: '.$e->getMessage();
+    }
+}
+?>
 
 </body>
 </html>

@@ -1,19 +1,19 @@
 <?php
 
 
-namespace PayFast\Services;
+namespace Payfast\Services;
 
 
 use Exception;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
-use PayFast\Exceptions\InvalidRequestException;
-use PayFast\PayFastBase;
-use PayFast\PayFastApi;
-use PayFast\Request;
-use PayFast\Validate;
+use Payfast\Exceptions\InvalidRequestException;
+use Payfast\PayfastBase;
+use Payfast\PayfastApi;
+use Payfast\Request;
+use Payfast\Validate;
 
-class Refunds extends PayFastBase
+class Refunds extends PayfastBase
 {
 
     private const PATH = 'refunds';
@@ -23,7 +23,7 @@ class Refunds extends PayFastBase
      * @throws InvalidRequestException
      */
     public function __construct(){
-        if(PayFastApi::$testMode === true) {
+        if(PayfastApi::$testMode === true) {
             throw new InvalidRequestException('Sorry but Refunds is not available in Sandbox mode', 400);
         }
     }
@@ -50,7 +50,9 @@ class Refunds extends PayFastBase
 
     /**
      * Create a new refund
-     * $payfast->refunds->create('2afa4575-5628-051a-d0ed-4e071b56a7b0', ['amount' => 50, 'reason' => 'Product returned', 'acc_type' => 'savings']);
+     * $payfast->refunds->create('2afa4575-5628-051a-d0ed-4e071b56a7b0', ['amount' => 50,
+     * 'reason' => 'Product returned',
+     * 'acc_type' => 'savings']);
      * @param null $id
      * @param array $options
      * @return array

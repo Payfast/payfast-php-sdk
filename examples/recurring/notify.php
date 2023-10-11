@@ -14,7 +14,7 @@ try {
         [
             'merchantId' => '10000100',
             'merchantKey' => '46f0cd694581a',
-            'passPhrase' => '',
+            'passPhrase' => 'jt7NOE43FZPn',
             'testMode' => true
         ]
     );
