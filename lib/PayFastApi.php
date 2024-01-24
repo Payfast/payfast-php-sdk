@@ -13,7 +13,7 @@ use RuntimeException;
  * @property mixed creditCardTransactions
  * @package Payfast
  */
-class PayfastApi
+class PayFastApi
 {
 
     /** @var string Base URL for the API */
