@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 use Payfast\Exceptions\InvalidRequestException;
-use Payfast\PayfastApi;
+use Payfast\PayFastApi;
 use PHPUnit\Framework\TestCase;
 
 final class ServicesTest extends TestCase
@@ -24,20 +24,20 @@ final class ServicesTest extends TestCase
      */
     public function testInstantiationOfPayfastService()
     {
-        $obj = new PayfastApi($this->init);
-        $this->assertInstanceOf('\Payfast\PayfastApi', $obj);
+        $obj = new PayFastApi($this->init);
+        $this->assertInstanceOf('\Payfast\PayFastApi', $obj);
     }
 
     /**
      * Make sure exception is thrown if required parameter is missing
      */
-    public function testPayfastApiException(): void
+    public function testPayFastApiException(): void
     {
         $this->expectException(InvalidRequestException::class);
 
         unset($this->init['merchantId']);
 
-        new PayfastApi($this->init);
+        new PayFastApi($this->init);
     }
 
 

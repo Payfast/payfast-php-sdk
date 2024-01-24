@@ -1,7 +1,7 @@
 <?php
 require_once '../../vendor/autoload.php';
 
-use Payfast\PayfastApi;
+use Payfast\PayFastApi;
 
 ?>
 
@@ -24,7 +24,7 @@ use Payfast\PayfastApi;
         <?php
         if(isset($_POST['paynow'])) {
             try {
-                $api = new PayfastApi(
+                $api = new PayFastApi(
                     [
                         'merchantId' => '10000100',
                         'passPhrase' => '46f0cd694581a',

@@ -37,7 +37,7 @@ See the [Developer Docs](https://developers.payfast.co.za/docs#quickstart)
 
 ```php
 try {
-    $payfast = new PayfastPayment(
+    $payfast = new PayFastPayment(
         [
             'merchantId' => '10000100',
             'merchantKey' => '46f0cd694581a',
@@ -69,7 +69,7 @@ See the [Developer Docs](https://developers.payfast.co.za/docs#onsite_payments)
 // Include: <script src="https://www.payfast.co.za/onsite/engine.js"></script>
 
 try {
-    $payfast = new PayfastPayment(
+    $payfast = new PayFastPayment(
         [
             'merchantId' => '10000100',
             'merchantKey' => '46f0cd694581a',
@@ -106,7 +106,7 @@ See the [Developer Docs](https://developers.payfast.co.za/api#recurring-billing)
 
 ```php
 try {
-    $api = new PayfastApi(
+    $api = new PayFastApi(
         [
             'merchantId' => '10018867',
             'passPhrase' => '2uU_k5q_vRS_',
@@ -141,7 +141,7 @@ See the [Developer Docs](https://developers.payfast.co.za/docs#recurring_card_up
 
 ```php
 try {
-    $payfast = new PayfastPayment(
+    $payfast = new PayFastPayment(
             [
                 'merchantId' => '10000100',
                 'merchantKey' => '46f0cd694581a',
@@ -167,7 +167,7 @@ See the [Developer Docs](https://developers.payfast.co.za/api#transaction-histor
 
 ```php
 try {
-    $api = new PayfastApi(
+    $api = new PayFastApi(
         [
             'merchantId' => '10018867',
             'passPhrase' => '2uU_k5q_vRS_',
@@ -198,7 +198,7 @@ See the [Developer Docs](https://developers.payfast.co.za/api#credit-card-transa
 
 ```php
 try {
-    $api = new PayfastApi(
+    $api = new PayFastApi(
         [
             'merchantId' => '10018867',
             'passPhrase' => '2uU_k5q_vRS_',
@@ -223,7 +223,7 @@ See the [Developer Docs](https://developers.payfast.co.za/api#refunds)
 
 ```php
 try {
-    $api = new PayfastApi(
+    $api = new PayFastApi(
         [
             'merchantId' => '10018867',
             'passPhrase' => '2uU_k5q_vRS_',

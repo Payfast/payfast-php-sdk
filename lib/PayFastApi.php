@@ -32,7 +32,7 @@ class PayFastApi
     public static $testMode;
 
     /**
-     * PayfastApi constructor.
+     * PayFastApi constructor.
      * @param $setup
      * @throws InvalidRequestException
      */

@@ -8,12 +8,12 @@ use Exception;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
 use Payfast\Exceptions\InvalidRequestException;
-use Payfast\PayfastBase;
-use Payfast\PayfastApi;
+use Payfast\PayFastBase;
+use Payfast\PayFastApi;
 use Payfast\Request;
 use Payfast\Validate;
 
-class Refunds extends PayfastBase
+class Refunds extends PayFastBase
 {
 
     private const PATH = 'refunds';
@@ -23,7 +23,7 @@ class Refunds extends PayfastBase
      * @throws InvalidRequestException
      */
     public function __construct(){
-        if(PayfastApi::$testMode === true) {
+        if(PayFastApi::$testMode === true) {
             throw new InvalidRequestException('Sorry but Refunds is not available in Sandbox mode', 400);
         }
     }

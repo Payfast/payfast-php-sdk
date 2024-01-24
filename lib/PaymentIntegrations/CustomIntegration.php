@@ -6,10 +6,10 @@ namespace Payfast\PaymentIntegrations;
 
 use Payfast\Auth;
 use Payfast\Exceptions\InvalidRequestException;
-use Payfast\PayfastBase;
-use Payfast\PayfastPayment;
+use Payfast\PayFastBase;
+use Payfast\PayFastPayment;
 
-class CustomIntegration extends PayfastBase
+class CustomIntegration extends PayFastBase
 {
 
     /**
@@ -30,12 +30,12 @@ class CustomIntegration extends PayfastBase
             throw new InvalidRequestException('Required "item_name" parameter missing', 400);
         }
 
-        $data = ['merchant_id' => PayfastPayment::$merchantId, 'merchant_key' => PayfastPayment::$merchantKey] + $data;
+        $data = ['merchant_id' => PayFastPayment::$merchantId, 'merchant_key' => PayFastPayment::$merchantKey] + $data;
 
-        $signature = Auth::generateSignature($data, PayfastPayment::$passPhrase);
+        $signature = Auth::generateSignature($data, PayFastPayment::$passPhrase);
         $data['signature'] = $signature;
 
-        $htmlForm = '<form action="'.PayfastPayment::$baseUrl.'/eng/process" method="post">';
+        $htmlForm = '<form action="'.PayFastPayment::$baseUrl.'/eng/process" method="post">';
         foreach($data as $name => $value)
         {
             $htmlForm .= '<input name="'.$name.'" type="hidden" value="'.$value.'" />';
@@ -73,7 +73,7 @@ class CustomIntegration extends PayfastBase
         if($token === null){
             throw new InvalidRequestException('Required "token" parameter missing', 400);
         }
-        if(PayfastPayment::$testMode === true) {
+        if(PayFastPayment::$testMode === true) {
             throw new InvalidRequestException('Sorry but this feature is not available in Sandbox mode', 400);
         }
 
@@ -82,7 +82,7 @@ class CustomIntegration extends PayfastBase
             $additionalOptions .= $k.'="'.$v.'" ';
         }
 
-        $url = PayfastPayment::$baseUrl.'/eng/recurring/update/'.$token;
+        $url = PayFastPayment::$baseUrl.'/eng/recurring/update/'.$token;
         if($return) {
             $url .= '?return=' . $return;
         }

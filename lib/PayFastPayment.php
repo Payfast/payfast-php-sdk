@@ -34,7 +34,7 @@ class PayFastPayment
     public static $errorMsg = [];
 
     /**
-     * PayfastPayment constructor.
+     * PayFastPayment constructor.
      * @param $setup
      * @throws InvalidRequestException
      */

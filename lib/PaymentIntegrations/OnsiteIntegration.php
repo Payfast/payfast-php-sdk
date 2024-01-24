@@ -10,11 +10,11 @@ use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
 use Payfast\Auth;
 use Payfast\Exceptions\InvalidRequestException;
-use Payfast\PayfastBase;
-use Payfast\PayfastPayment;
+use Payfast\PayFastBase;
+use Payfast\PayFastPayment;
 use RuntimeException;
 
-class OnsiteIntegration extends PayfastBase
+class OnsiteIntegration extends PayFastBase
 {
 
     private const PATH = 'onsite/process';
@@ -41,24 +41,24 @@ class OnsiteIntegration extends PayfastBase
      */
     public function generatePaymentIdentifier($data)
     {
-        if(PayfastPayment::$testMode === true) {
+        if(PayFastPayment::$testMode === true) {
             throw new InvalidRequestException('Sorry but Onsite is not available in Sandbox mode', 400);
         }
 
         $authDetails = [
-            'merchant_id' => PayfastPayment::$merchantId,
-            'merchant_key' => PayfastPayment::$merchantKey
+            'merchant_id' => PayFastPayment::$merchantId,
+            'merchant_key' => PayFastPayment::$merchantKey
         ];
         $data = array_merge($authDetails, $data);
 
         // Generate signature
-        $data["signature"] = Auth::generateSignature($data, PayfastPayment::$passPhrase);
+        $data["signature"] = Auth::generateSignature($data, PayFastPayment::$passPhrase);
 
         // Convert the data array to a string
         $pfParamString = $this->dataToString($data);
 
         try {
-            $client = new Client(['base_uri' => PayfastPayment::$baseUrl.'/']);
+            $client = new Client(['base_uri' => PayFastPayment::$baseUrl.'/']);
             $response = $client->request('POST', self::PATH, [
                 'headers'  => ['content-type' => 'application/x-www-form-urlencoded'],
                 'body' => $pfParamString
