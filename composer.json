@@ -1,5 +1,5 @@
 {
-    "name": "darronengelbrecht/payfast-php-sdk",
+    "name": "payfast/payfast-php-sdk",
     "description": "Payfast PHP Library",
     "keywords": [
         "payfast",
@@ -23,7 +23,7 @@
     },
     "autoload": {
         "psr-4": {
-            "DarronEngelbrect\\": "lib/"
+            "Payfast\\": "lib/"
         }
     },
     "require-dev": {
