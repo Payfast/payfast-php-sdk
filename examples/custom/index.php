@@ -1,11 +1,11 @@
 <?php
 require_once '../../vendor/autoload.php';
 
-use Payfast\PayfastPayment;
+use Payfast\PayFastPayment;
 
 $amount = '5.00';
 
-$payfast = new PayfastPayment(
+$payfast = new PayFastPayment(
     [
         'merchantId' => '10000100',
         'merchantKey' => '46f0cd694581a',

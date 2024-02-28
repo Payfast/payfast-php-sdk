@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 use Payfast\Exceptions\InvalidRequestException;
-use Payfast\PayfastPayment;
+use Payfast\PayFastPayment;
 use PHPUnit\Framework\TestCase;
 
 final class PaymentIntegrationTest extends TestCase
@@ -23,23 +23,23 @@ final class PaymentIntegrationTest extends TestCase
     /**
      * Test instantiation of Payfast payment
      */
-    public function testInstantiationOfPayfastPayment()
+    public function testInstantiationOfPayFastPayment()
     {
-        $obj = new PayfastPayment($this->init);
+        $obj = new PayFastPayment($this->init);
 
-        $this->assertInstanceOf('\Payfast\PayfastPayment', $obj);
+        $this->assertInstanceOf('\Payfast\PayFastPayment', $obj);
     }
 
     /**
      * Make sure exception is thrown if required parameter is missing
      */
-    public function testPayfastPaymentException(): void
+    public function testPayFastPaymentException(): void
     {
         $this->expectException(InvalidRequestException::class);
 
         unset($this->init['merchantId']);
 
-        new PayfastPayment($this->init);
+        new PayFastPayment($this->init);
     }
 
 

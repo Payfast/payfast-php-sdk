@@ -13,7 +13,7 @@ use RuntimeException;
  * @property mixed creditCardTransactions
  * @package Payfast
  */
-class PayfastApi
+class PayFastApi
 {
 
     /** @var string Base URL for the API */
@@ -32,7 +32,7 @@ class PayfastApi
     public static $testMode;
 
     /**
-     * PayfastApi constructor.
+     * PayFastApi constructor.
      * @param $setup
      * @throws InvalidRequestException
      */

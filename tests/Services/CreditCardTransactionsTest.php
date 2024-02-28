@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 use Payfast\Exceptions\InvalidRequestException;
-use Payfast\PayfastApi;
+use Payfast\PayFastApi;
 use PHPUnit\Framework\TestCase;
 
 final class CreditCardTransactionsTest extends TestCase
@@ -13,7 +13,7 @@ final class CreditCardTransactionsTest extends TestCase
     public static function setUpBeforeClass(): void
     {
         try {
-            self::$api = new PayfastApi(
+            self::$api = new PayFastApi(
                 [
                     'merchantId' => '10026755',
                     'passPhrase' => 'test_sandbox',

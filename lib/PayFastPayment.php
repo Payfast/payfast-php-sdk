@@ -12,7 +12,7 @@ use Payfast\Exceptions\InvalidRequestException;
  * @property mixed notification
  * @package Payfast
  */
-class PayfastPayment
+class PayFastPayment
 {
 
     /** @var string Base URL for the API */
@@ -34,7 +34,7 @@ class PayfastPayment
     public static $errorMsg = [];
 
     /**
-     * PayfastPayment constructor.
+     * PayFastPayment constructor.
      * @param $setup
      * @throws InvalidRequestException
      */

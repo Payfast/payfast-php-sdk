@@ -5,7 +5,7 @@ namespace Payfast;
 
 use Exception;
 
-class PayfastBase
+class PayFastBase
 {
 
     /**

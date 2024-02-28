@@ -20,14 +20,14 @@ class Request
      * @throws GuzzleException
      */
     public static function sendApiRequest(string $method, string $uri, array $queryParams=[], array $jsonData=[]) {
-        $client = new Client(['base_uri' => PayfastApi::$apiUrl.'/']);
+        $client = new Client(['base_uri' => PayFastApi::$apiUrl.'/']);
 
         $params = [];
 
         if(!empty($queryParams)) {
             $params['query'] = $queryParams;
         }
-        if(PayfastApi::$testMode === true){
+        if(PayFastApi::$testMode === true){
             $params['query']['testing'] = 'true';
         }
 
@@ -36,14 +36,14 @@ class Request
         }
 
         $params['headers'] = [
-            'merchant-id' => PayfastApi::$merchantId,
-            'version'     => PayfastApi::$version,
+            'merchant-id' => PayFastApi::$merchantId,
+            'version'     => PayFastApi::$version,
             'timestamp'   => date("Y-m-d\TH:i:sO")
         ];
 
         $signatureData = array_merge($params['headers'], $queryParams, $jsonData);
 
-        $signature = Auth::generateApiSignature($signatureData, PayfastApi::$passPhrase);
+        $signature = Auth::generateApiSignature($signatureData, PayFastApi::$passPhrase);
 
         $params['headers']['signature'] = $signature;
 

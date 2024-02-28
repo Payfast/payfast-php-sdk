@@ -8,11 +8,11 @@ use Exception;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
 use Payfast\Exceptions\InvalidRequestException;
-use Payfast\PayfastBase;
+use Payfast\PayFastBase;
 use Payfast\Request;
 use RuntimeException;
 
-class CreditCardTransactions extends PayfastBase
+class CreditCardTransactions extends PayFastBase
 {
 
     private const PATH = 'process/query';
