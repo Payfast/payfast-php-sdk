@@ -1,7 +1,8 @@
 <?php
+
 require_once '../../vendor/autoload.php';
 
-use Payfast\PayfastApi;
+use PayFast\PayFastApi;
 
 ?>
 <!DOCTYPE html>
@@ -20,11 +21,19 @@ use Payfast\PayfastApi;
     <div class='order'>
         <form method="post" action="index.php">
             <h2>Recurring Checkout Demo</h2>
-            <h5>Enter Token:</h5>
+            <h5>Merchant ID:</h5>
+            <div class="input-wrapper">
+                <input name="merchantId" id="price" type="text" value="">
+            </div>
+            <h5>Passphrase:</h5>
+            <div class="input-wrapper">
+                <input name="passPhrase" id="price" type="text" value="">
+            </div>
+            <h5>Subcription Token:</h5>
             <div class="input-wrapper">
                 <input name="token" id="price" type="text" value="">
             </div>
-            <h5>Enter amount:</h5>
+            <h5>Subscription Amount:</h5>
             <div class="input-wrapper">
                 <input name="amount" id="price" type="text" value="">
             </div>
@@ -47,13 +56,13 @@ use Payfast\PayfastApi;
         </form>
 
         <?php
-        if(isset($_POST['paynow'])) {
+        if (isset($_POST['paynow'])) {
             try {
-                $api = new PayfastApi(
+                $api   = new PayFastApi(
                     [
-                        'merchantId' => '10000100',
-                        'passPhrase' => 'jt7NOE43FZPn',
-                        'testMode' => true
+                        'merchantId' => $_POST['merchantId'],
+                        'passPhrase' => $_POST['passPhrase'],
+                        'testMode'   => true
                     ]
                 );
                 $token = $_POST['token'];
@@ -92,8 +101,11 @@ use Payfast\PayfastApi;
                         }
                         break;
                     case 'update':
-                        $updateArray = $api->subscriptions->update($token, ['cycles' => 14,
-                            'frequency' => 4, 'amount' => $_POST['amount']*100]);
+                        $updateArray = $api->subscriptions->update($token, [
+                            'cycles'    => 14,
+                            'frequency' => 4,
+                            'amount'    => $_POST['amount'] * 100
+                        ]);
                         if ($updateArray['status'] == 'success') {
                             echo '<script>alert("Amount Updated!");</script>';
                         } else {
@@ -102,8 +114,9 @@ use Payfast\PayfastApi;
                         break;
                     case 'adhoc':
                         $adhocArray = $api->subscriptions->adhoc('290ac9a6-25f1-cce4-5801-67a644068818', [
-                            'amount' => isset($_POST['amount'])*100,
-                            'item_name' => 'Test adhoc']);
+                            'amount'    => isset($_POST['amount']) * 100,
+                            'item_name' => 'Test adhoc'
+                        ]);
                         if ($adhocArray['status'] == 'success') {
                             echo '<script>alert("Adhoc Updated!");</script>';
                         } else {
@@ -116,12 +129,11 @@ use Payfast\PayfastApi;
                     default:
                         break;
                 }
-
-            } catch(Exception $e) {
-                echo 'There was an exception: '.$e->getMessage();
+            } catch (Exception $e) {
+                echo 'There was an exception: ' . $e->getMessage();
             }
         }
-         ?>
+        ?>
 
     </div>
 </div>

@@ -1,7 +1,8 @@
 <?php
+
 require_once '../../vendor/autoload.php';
 
-use Payfast\PayfastApi;
+use PayFast\PayFastApi;
 
 ?>
 
@@ -21,29 +22,40 @@ use Payfast\PayfastApi;
     <div class='order'>
         <h2>Credit Card Transaction Query</h2>
 
-        <?php
-        if(isset($_POST['paynow'])) {
-            try {
-                $api = new PayfastApi(
-                    [
-                        'merchantId' => '10000100',
-                        'passPhrase' => '46f0cd694581a',
-                        'testMode' => true
-                    ]
-                );
-
-                $creditCardArray = $api->creditCardTransactions->fetch('b0ea1afa-f04e-4d3e-9d65-7eeeb38b1dfe');
-                echo '<div id="view">' . print_r($creditCardArray, true) . '</div>';
-
-            } catch(Exception $e) {
-                echo 'There was an exception: '.$e->getMessage();
-            }
-        }
-        ?>
         <form method="post" action="index.php">
+            <h5>Merchant ID:</h5>
+            <div class="input-wrapper">
+                <input name="merchantId" id="price" type="text" value="">
+            </div>
+            <h5>Passphrase:</h5>
+            <div class="input-wrapper">
+                <input name="passPhrase" id="price" type="text" value="">
+            </div>
+            <h5>Subcription Token:</h5>
+            <div class="input-wrapper">
+                <input name="token" id="price" type="text" value="">
+            </div>
             <input type="submit" class="button-cta" name="paynow" value="View Credit Card Transaction Query">
         </form>
 
+        <?php
+        if (isset($_POST['paynow'])) {
+            try {
+                $api = new PayFastApi(
+                    [
+                        'merchantId' => $_POST['merchantId'],
+                        'passPhrase' => $_POST['passPhrase'],
+                        'testMode'   => true
+                    ]
+                );
+
+                $creditCardArray = $api->creditCardTransactions->fetch($_POST['token']);
+                echo '<div id="view">' . print_r($creditCardArray, true) . '</div>';
+            } catch (Exception $e) {
+                echo 'There was an exception: ' . $e->getMessage();
+            }
+        }
+        ?>
     </div>
 </div>
 

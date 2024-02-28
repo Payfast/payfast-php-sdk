@@ -1,46 +1,46 @@
 <?php
+
 declare(strict_types=1);
 
-use Payfast\Exceptions\InvalidRequestException;
-use Payfast\PayfastPayment;
+namespace PaymentIntegrations;
+
+use PayFast\Exceptions\InvalidRequestException;
+use PayFast\PayFastPayment;
 use PHPUnit\Framework\TestCase;
 
 final class PaymentIntegrationTest extends TestCase
 {
-
     private $init;
-
-    protected function setUp(): void
-    {
-        $this->init = [
-            'merchantId' => '10000100',
-            'merchantKey' => '46f0cd694581a',
-            'passPhrase' => '',
-            'testMode' => true
-        ];
-    }
 
     /**
      * Test instantiation of Payfast payment
      */
-    public function testInstantiationOfPayfastPayment()
+    public function testInstantiationOfPayFastPayment()
     {
-        $obj = new PayfastPayment($this->init);
+        $obj = new PayFastPayment($this->init);
 
-        $this->assertInstanceOf('\Payfast\PayfastPayment', $obj);
+        $this->assertInstanceOf('\PayFast\PayFastPayment', $obj);
     }
 
     /**
      * Make sure exception is thrown if required parameter is missing
      */
-    public function testPayfastPaymentException(): void
+    public function testPayFastPaymentException(): void
     {
         $this->expectException(InvalidRequestException::class);
 
         unset($this->init['merchantId']);
 
-        new PayfastPayment($this->init);
+        new PayFastPayment($this->init);
     }
 
-
+    protected function setUp(): void
+    {
+        $this->init = [
+            'merchantId'  => '10000100',
+            'merchantKey' => '46f0cd694581a',
+            'passPhrase'  => '',
+            'testMode'    => true
+        ];
+    }
 }

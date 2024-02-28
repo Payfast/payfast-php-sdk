@@ -1,81 +1,85 @@
 <?php
 
-namespace Payfast;
+namespace PayFast;
 
 use Exception;
-use Payfast\Exceptions\InvalidRequestException;
+use PayFast\Exceptions\InvalidRequestException;
 
 /**
- * Class Payfast
+ * Class PayFast
  * @property mixed custom
  * @property mixed onsite
  * @property mixed notification
- * @package Payfast
+ * @package PayFast
  */
-class PayfastPayment
+class PayFastPayment
 {
-
     /** @var string Base URL for the API */
-    public static $baseUrl;
+    public static string $baseUrl;
 
-    /** @var integer The merchant ID as given by the Payfast system */
-    public static $merchantId;
+    /** @var string The merchant ID as given by the Payfast system */
+    public static string $merchantId;
 
-    /** @var integer The merchant Key as given by the Payfast system */
-    public static $merchantKey;
+    /** @var string The merchant Key as given by the Payfast system */
+    public static string $merchantKey;
 
     /** @var string The passphrase is used to salt the signature */
-    public static $passPhrase;
+    public static string $passPhrase;
 
-    /** @var string Test / sandbox mode */
-    public static $testMode;
+    /** @var bool Test / sandbox mode */
+    public static bool $testMode;
 
     /** @var array Error messages */
-    public static $errorMsg = [];
+    public static array $errorMsg = [];
 
     /**
-     * PayfastPayment constructor.
+     * PayFastPayment constructor.
+     *
      * @param $setup
+     *
      * @throws InvalidRequestException
      */
     public function __construct($setup)
     {
-        if(isset($setup['merchantId'])) {
+        if (isset($setup['merchantId'])) {
             self::$merchantId = $setup['merchantId'];
         } else {
             throw new InvalidRequestException('Missing parameter "merchantId"', 400);
         }
-        if(isset($setup['merchantKey'])) {
+        if (isset($setup['merchantKey'])) {
             self::$merchantKey = $setup['merchantKey'];
         } else {
             throw new InvalidRequestException('Missing parameter "merchantKey"', 400);
         }
         self::$passPhrase = (isset($setup['passPhrase'])) ? $setup['passPhrase'] : null;
-        self::$testMode = (isset($setup['testMode'])) ? $setup['testMode'] : false;
-        self::$baseUrl = self::$testMode === true ? 'https://sandbox.payfast.co.za' : 'https://www.payfast.co.za';
-    }
-
-    /**
-     * @param $property
-     * @return mixed
-     * @throws Exception
-     */
-    public function __get($property) {
-        $class = ServiceMapper::getClass($property);
-        if ($class !== null) {
-            return new $class;
-        } else {
-            throw new InvalidArgumentException("Unknown method");
-        }
+        self::$testMode   = (isset($setup['testMode'])) ? $setup['testMode'] : false;
+        self::$baseUrl    = self::$testMode === true ? 'https://sandbox.payfast.co.za' : 'https://www.payfast.co.za';
     }
 
     /**
      * Set test mode value
+     *
      * @param false $value
      */
-    public static function setTestMode($value = false) {
-        self::$testMode = (bool) $value;
-        self::$baseUrl = self::$testMode === true ? 'https://sandbox.payfast.co.za' : 'https://www.payfast.co.za';
+    public static function setTestMode($value = false)
+    {
+        self::$testMode = (bool)$value;
+        self::$baseUrl  = self::$testMode === true ? 'https://sandbox.payfast.co.za' : 'https://www.payfast.co.za';
     }
 
+    /**
+     * @param $property
+     *
+     * @return mixed
+     * @throws Exception
+     */
+    public function __get($property)
+    {
+        $class = ServiceMapper::getClass($property);
+        if ($class !== null) {
+            return new $class();
+        } else {
+            throw new \InvalidArgumentException("Unknown method");
+        }
+    }
 }

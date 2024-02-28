@@ -1,23 +1,24 @@
 <?php
+
 require_once '../../vendor/autoload.php';
 
-use Payfast\PayfastPayment;
+use PayFast\PayFastPayment;
 
 $amount = '5.00';
 
 $data = [
     // Merchant details
-    'return_url' => 'https://yoursite.com/return.php', // Requires HTTPS
-    'cancel_url' => 'https://yoursite.com/cancel.php', // Requires HTTPS
-    'notify_url' => 'https://yoursite.com/notify.php', // Requires HTTPS
+    'return_url'    => 'https://yoursite.com/return.php', // Requires HTTPS
+    'cancel_url'    => 'https://yoursite.com/cancel.php', // Requires HTTPS
+    'notify_url'    => 'https://yoursite.com/notify.php', // Requires HTTPS
     // Buyer details
-    'name_first' => 'First Name',
-    'name_last'  => 'Last Name',
-    'email_address'=> 'test@test.com',
+    'name_first'    => 'First Name',
+    'name_last'     => 'Last Name',
+    'email_address' => 'test@test.com',
     // Transaction details
-    'm_payment_id' => '1234', //Unique payment ID to pass through to notify_url
-    'amount' => $amount,
-    'item_name' => 'Order#123'
+    'm_payment_id'  => '1234', //Unique payment ID to pass through to notify_url
+    'amount'        => $amount,
+    'item_name'     => 'Order#123'
 ];
 ?>
 <!DOCTYPE html>
@@ -42,7 +43,8 @@ $data = [
             <li><img src='https://via.placeholder.com/150' alt="Product 3 image"><h4>Product 3</h4><h5>R1</h5></li>
         </ul>
         <h5>Shipping</h5><h4>R 1.00</h4>
-        <h5 class='total'>Total</h5><h1>R <?= $amount ;?></h1>
+        <h5 class='total'>Total</h5>
+        <h1>R <?= $amount; ?></h1>
 
         <form method="post" action="index.php">
             <input type="submit" class="button-cta" name="paynow" value="PAY NOW">
@@ -52,22 +54,25 @@ $data = [
 </div>
 
 <?php
-if(isset($_POST['paynow'])) {
+if (isset($_POST['paynow'])) {
     try {
-        $payfast = new PayfastPayment(
+        $payfast = new PayFastPayment(
             [
-                'merchantId' => '10000100',
+                'merchantId'  => '10000100',
                 'merchantKey' => '46f0cd694581a',
-                'passPhrase' => 'jt7NOE43FZPn',
-                'testMode' => false
+                'passPhrase'  => 'jt7NOE43FZPn',
+                'testMode'    => false
             ]
         );
 
-        echo $payfast->custom->createCardUpdateLink('b0ea1afa-f04e-4d3e-9d65-7eeeb38b1dfe',
-            'https://www.example.com/return', 'Update your card', ['target' => '_blank']);
-
-    } catch(Exception $e) {
-        echo 'There was an exception: '.$e->getMessage();
+        echo $payfast->custom->createCardUpdateLink(
+            'b0ea1afa-f04e-4d3e-9d65-7eeeb38b1dfe',
+            'https://www.example.com/return',
+            'Update your card',
+            ['target' => '_blank']
+        );
+    } catch (Exception $e) {
+        echo 'There was an exception: ' . $e->getMessage();
     }
 }
 ?>

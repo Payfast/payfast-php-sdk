@@ -1,7 +1,8 @@
 <?php
+
 require_once '../../vendor/autoload.php';
 
-use Payfast\PayfastApi;
+use PayFast\PayFastApi;
 
 ?>
 <!DOCTYPE html>
@@ -19,40 +20,49 @@ use Payfast\PayfastApi;
 <div class='checkout'>
     <div class='order'>
         <h2>Transaction History Demo</h2>
-
-
-<?php
-if(isset($_POST['paynow'])) {
-    try {
-        $api = new PayfastApi(
-            [
-                'merchantId' => '10000100',
-                'passPhrase' => 'jt7NOE43FZPn',
-                'testMode' => true
-            ]
-        );
-        $fromDate = '2020-08-01';
-        $toDate = '2020-08-07';
-
-        $rangeArray = $api->transactionHistory->range(['from' => $fromDate, 'to' => $toDate,
-            'offset' => 0, 'limit' => 1000]);
-
-        $dailyArray = $api->transactionHistory->daily(['date' => $toDate, 'offset' => 0, 'limit' => 1000]);
-
-        $weeklyArray = $api->transactionHistory->weekly(['date' => $toDate, 'offset' => 0, 'limit' => 1000]);
-
-        $monthlyArray = $api->transactionHistory->monthly(['date' => '2020-08', 'offset' => 0, 'limit' => 1000]);
-            echo '<div id="view">' . print_r($rangeArray, true) . '</div>';
-
-    } catch(Exception $e) {
-        echo 'There was an exception: '.$e->getMessage();
-    }
-}
-?>
-
         <form method="post" action="index.php">
+            <h5>Merchant ID:</h5>
+            <div class="input-wrapper">
+                <input name="merchantId" id="price" type="text" value="">
+            </div>
+            <h5>Passphrase:</h5>
+            <div class="input-wrapper">
+                <input name="passPhrase" id="price" type="text" value="">
+            </div>
             <input type="submit" class="button-cta" name="paynow" value="View Transactions">
         </form>
+        <?php
+        if (isset($_POST['paynow'])) {
+            try {
+                $api      = new PayFastApi(
+                    [
+                        'merchantId' => $_POST['merchantId'],
+                        'passPhrase' => $_POST['passPhrase'],
+                        'testMode'   => true
+                    ]
+                );
+                $fromDate = '2020-08-01';
+                $toDate   = '2020-08-07';
+
+                $rangeArray = $api->transactionHistory->range([
+                                                                  'from'   => $fromDate,
+                                                                  'to'     => $toDate,
+                                                                  'offset' => 0,
+                                                                  'limit'  => 1000
+                                                              ]);
+
+                $dailyArray = $api->transactionHistory->daily(['date' => $toDate, 'offset' => 0, 'limit' => 1000]);
+
+                $weeklyArray = $api->transactionHistory->weekly(['date' => $toDate, 'offset' => 0, 'limit' => 1000]);
+
+                $monthlyArray = $api->transactionHistory->monthly(['date' => '2020-08', 'offset' => 0, 'limit' => 1000]
+                );
+                echo '<div id="view">' . print_r($rangeArray, true) . '</div>';
+            } catch (Exception $e) {
+                echo 'There was an exception: ' . $e->getMessage();
+            }
+        }
+        ?>
 
     </div>
 </div>

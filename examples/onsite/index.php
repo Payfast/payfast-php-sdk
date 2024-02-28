@@ -1,24 +1,10 @@
 <?php
+
 require_once '../../vendor/autoload.php';
 
-use Payfast\PayfastPayment;
+use PayFast\PayFastPayment;
 
 $amount = '5.00';
-
-$data = [
-    // Merchant details
-    'return_url' => 'https://yoursite.com/return.php', // Requires HTTPS
-    'cancel_url' => 'https://yoursite.com/cancel.php', // Requires HTTPS
-    'notify_url' => 'https://yoursite.com/notify.php', // Requires HTTPS
-    // Buyer details
-    'name_first' => 'First Name',
-    'name_last'  => 'Last Name',
-    'email_address'=> 'test@test.com',
-    // Transaction details
-    'm_payment_id' => '1234', //Unique payment ID to pass through to notify_url
-    'amount' => $amount,
-    'item_name' => 'Order#123'
-];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -35,16 +21,19 @@ $data = [
 <div class='checkout'>
     <div class='order'>
         <h2>Onsite Checkout Demo</h2>
-        <h5>Order #000001</h5>
-        <ul class='order-list'>
-            <li><img src='https://via.placeholder.com/150' alt="Product 1 image"><h4>Product 1</h4><h5>R2</h5></li>
-            <li><img src='https://via.placeholder.com/150' alt="Product 2 image"><h4>Product 2</h4><h5>R1</h5></li>
-            <li><img src='https://via.placeholder.com/150' alt="Product 3 image"><h4>Product 3</h4><h5>R1</h5></li>
-        </ul>
-        <h5>Shipping</h5><h4>R 1.00</h4>
-        <h5 class='total'>Total</h5><h1>R <?= $amount ;?></h1>
-
         <form method="post" action="index.php">
+            <h5>Merchant ID:</h5>
+            <div class="input-wrapper">
+                <input name="merchantId" id="price" type="text" value="">
+            </div>
+            <h5>Merchant Key:</h5>
+            <div class="input-wrapper">
+                <input name="merchantKey" id="price" type="text" value="">
+            </div>
+            <h5>Passphrase:</h5>
+            <div class="input-wrapper">
+                <input name="passPhrase" id="price" type="text" value="">
+            </div>
             <input type="submit" class="button-cta" name="paynow" value="PAY NOW">
         </form>
 
@@ -52,27 +41,42 @@ $data = [
 </div>
 
 <?php
-if(isset($_POST['paynow'])) {
+if (isset($_POST['paynow'])) {
     try {
-        $payfast = new PayfastPayment(
+        $payfast = new PayFastPayment(
             [
-                'merchantId' => '10000100', // Your merchant id
-                'merchantKey' => '46f0cd694581a', // Your merchant key
-                'passPhrase' => '',
-                'testMode' => false
+                'merchantId'  => $_POST['merchantId'], // Your merchant id
+                'merchantKey' => $_POST['merchantKey'], // Your merchant key
+                'passPhrase'  => $_POST['passPhrase'],
+                'testMode'    => false
             ]
         );
+
+        $data = [
+            // Merchant details
+            'return_url'    => 'https://yoursite.com/return.php', // Requires HTTPS
+            'cancel_url'    => 'https://yoursite.com/cancel.php', // Requires HTTPS
+            'notify_url'    => 'https://yoursite.com/notify.php', // Requires HTTPS
+            // Buyer details
+            'name_first'    => 'First Name',
+            'name_last'     => 'Last Name',
+            'email_address' => 'test@test.com',
+            // Transaction details
+            'm_payment_id'  => '1234', //Unique payment ID to pass through to notify_url
+            'amount'        => $amount,
+            'item_name'     => 'Order#123'
+        ];
 
         // Generate payment identifier
         $identifier = $payfast->onsite->generatePaymentIdentifier($data);
 
-        if($identifier!== null){
+        if ($identifier !== null) {
             echo '<script type="text/javascript">
-                    window.payfast_do_onsite_payment({"uuid":"'.$identifier.'"});
+                    window.payfast_do_onsite_payment({"uuid":"' . $identifier . '"});
                   </script>';
         }
-    } catch(Exception $e) {
-        echo 'There was an exception: '.$e->getMessage();
+    } catch (Exception $e) {
+        echo 'There was an exception: ' . $e->getMessage();
     }
 }
 ?>

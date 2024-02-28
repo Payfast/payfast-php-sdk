@@ -7,10 +7,6 @@ This includes Custom Integration, Onsite Integration and all APIs.
 
 PHP 8.1 and later.
 
-## 1.1.5+ Breaking changes
-
-- All references to **PayFast** have been changed to **Payfast**. Before updating to 1.1.5, please refactor references to previous namespaces and function calls.
-
 ## Documentation
 
 See the [Developer Docs](https://developers.payfast.co.za/docs)
@@ -41,7 +37,7 @@ See the [Developer Docs](https://developers.payfast.co.za/docs#quickstart)
 
 ```php
 try {
-    $payfast = new PayfastPayment(
+    $payfast = new PayFastPayment(
         [
             'merchantId' => '10000100',
             'merchantKey' => '46f0cd694581a',
@@ -65,7 +61,8 @@ try {
 
 Integrate Payfast’s secure payment engine directly into your checkout page.
 
-**NB!** The default value of 'testMode' is false. Otherwise we get the Exception: "_**There was an exception: Sorry but Onsite is not available in Sandbox mode**_"
+**NB!** The default value of 'testMode' is false. Otherwise we get the Exception: "
+_**There was an exception: Sorry but Onsite is not available in Sandbox mode**_"
 
 See the [Developer Docs](https://developers.payfast.co.za/docs#onsite_payments)
 
@@ -73,7 +70,7 @@ See the [Developer Docs](https://developers.payfast.co.za/docs#onsite_payments)
 // Include: <script src="https://www.payfast.co.za/onsite/engine.js"></script>
 
 try {
-    $payfast = new PayfastPayment(
+    $payfast = new PayFastPayment(
         [
             'merchantId' => '10000100',
             'merchantKey' => '46f0cd694581a',
@@ -110,7 +107,7 @@ See the [Developer Docs](https://developers.payfast.co.za/api#recurring-billing)
 
 ```php
 try {
-    $api = new PayfastApi(
+    $api = new PayFastApi(
         [
             'merchantId' => '10018867',
             'passPhrase' => '2uU_k5q_vRS_',
@@ -137,15 +134,17 @@ try {
 
 #### Update card
 
-The update card endpoint allows you to provide buyers with a link to update their card details on a Recurring Billing subscription or Tokenization charges.
+The update card endpoint allows you to provide buyers with a link to update their card details on a Recurring Billing
+subscription or Tokenization charges.
 
-**NB!** The default value of 'testMode' is false. Otherwise we get the Exception: "_**There was an exception: Sorry but Onsite is not available in Sandbox mode**_"
+**NB!** The default value of 'testMode' is false. Otherwise we get the Exception: "
+_**There was an exception: Sorry but Onsite is not available in Sandbox mode**_"
 
 See the [Developer Docs](https://developers.payfast.co.za/docs#recurring_card_update)
 
 ```php
 try {
-    $payfast = new PayfastPayment(
+    $payfast = new PayFastPayment(
             [
                 'merchantId' => '10000100',
                 'merchantKey' => '46f0cd694581a',
@@ -171,7 +170,7 @@ See the [Developer Docs](https://developers.payfast.co.za/api#transaction-histor
 
 ```php
 try {
-    $api = new PayfastApi(
+    $api = new PayFastApi(
         [
             'merchantId' => '10018867',
             'passPhrase' => '2uU_k5q_vRS_',
@@ -202,7 +201,7 @@ See the [Developer Docs](https://developers.payfast.co.za/api#credit-card-transa
 
 ```php
 try {
-    $api = new PayfastApi(
+    $api = new PayFastApi(
         [
             'merchantId' => '10018867',
             'passPhrase' => '2uU_k5q_vRS_',
@@ -221,13 +220,14 @@ try {
 
 The Refunds API Providing gives Merchants the ability to perform refunds on their account.
 
-**NB!** The default value of 'testMode' is false. Otherwise we get the Exception: "_**There was an exception: Sorry but Onsite is not available in Sandbox mode**_"
+**NB!** The default value of 'testMode' is false. Otherwise we get the Exception: "
+_**There was an exception: Sorry but Onsite is not available in Sandbox mode**_"
 
 See the [Developer Docs](https://developers.payfast.co.za/api#refunds)
 
 ```php
 try {
-    $api = new PayfastApi(
+    $api = new PayFastApi(
         [
             'merchantId' => '10018867',
             'passPhrase' => '2uU_k5q_vRS_',

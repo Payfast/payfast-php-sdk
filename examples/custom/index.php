@@ -1,32 +1,36 @@
 <?php
+
 require_once '../../vendor/autoload.php';
 
-use Payfast\PayfastPayment;
+use PayFast\PayFastPayment;
 
+?>
+
+<?php
 $amount = '5.00';
 
-$payfast = new PayfastPayment(
+$payfast = new PayFastPayment(
     [
-        'merchantId' => '10000100',
+        'merchantId'  => '10000100',
         'merchantKey' => '46f0cd694581a',
-        'passPhrase' => 'jt7NOE43FZPn',
-        'testMode' => true
+        'passPhrase'  => 'jt7NOE43FZPn',
+        'testMode'    => true
     ]
 );
 
 $data = [
     // Merchant details
-    'return_url' => 'https://www.example.com/return.php',
-    'cancel_url' => 'https://www.example.com/cancel.php',
-    'notify_url' => 'https://www.example.com/notify.php',
+    'return_url'    => 'https://www.example.com/return.php',
+    'cancel_url'    => 'https://www.example.com/cancel.php',
+    'notify_url'    => 'https://www.example.com/notify.php',
     // Buyer details
-    'name_first' => 'First Name',
-    'name_last'  => 'Last Name',
-    'email_address'=> 'test@test.com',
+    'name_first'    => 'First Name',
+    'name_last'     => 'Last Name',
+    'email_address' => 'test@test.com',
     // Transaction details
-    'm_payment_id' => '1234', //Unique payment ID to pass through to notify_url
-    'amount' => $amount,
-    'item_name' => 'Order#123'
+    'm_payment_id'  => '1234', //Unique payment ID to pass through to notify_url
+    'amount'        => $amount,
+    'item_name'     => 'Order#123'
 ];
 
 $htmlForm = $payfast->custom->createFormFields($data, ['value' => 'PLEASE PAY', 'class' => 'button-cta']);
@@ -52,9 +56,10 @@ $htmlForm = $payfast->custom->createFormFields($data, ['value' => 'PLEASE PAY', 
             <li><img src='https://via.placeholder.com/150' alt="Product 3 image"><h4>Product 3</h4><h5>R1</h5></li>
         </ul>
         <h5>Shipping</h5><h4>R 1.00</h4>
-        <h5 class='total'>Total</h5><h1>R <?= $amount ;?></h1>
+        <h5 class='total'>Total</h5>
+        <h1>R <?= $amount; ?></h1>
 
-        <?= $htmlForm ;?>
+        <?= $htmlForm; ?>
 
     </div>
 </div>
