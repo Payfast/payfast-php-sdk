@@ -7,6 +7,10 @@ This includes Custom Integration, Onsite Integration and all APIs.
 
 PHP 8.1 and later.
 
+## 1.1.5+ Breaking changes
+
+- All references to **PayFast** have been changed to **Payfast**. Before updating to 1.1.5, please refactor references to previous namespaces and function calls.
+
 ## Documentation
 
 See the [Developer Docs](https://developers.payfast.co.za/docs)
