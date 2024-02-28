@@ -19,7 +19,8 @@
             <li><img src='https://via.placeholder.com/150' alt="Product 3 image"><h4>Product 3</h4><h5>R1</h5></li>
         </ul>
         <h5>Shipping</h5><h4>R 1.00</h4>
-        <h5 class='total'>Total</h5><h1>R 5.00</h1>
+        <h5 class='total'>Total</h5>
+        <h1>R 5.00</h1>
 
         <div class="cancel"><h2>Payment Cancelled -> <a href="index.php">TRY AGAIN</a></h2></div>
 
@@ -30,4 +31,3 @@
 </html>
 
 <?php
-

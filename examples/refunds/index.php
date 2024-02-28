@@ -1,7 +1,8 @@
 <?php
+
 require_once '../../vendor/autoload.php';
 
-use Payfast\PayFastPayment;
+use PayFast\PayFastApi;
 
 ?>
 <!DOCTYPE html>
@@ -26,7 +27,8 @@ use Payfast\PayFastPayment;
             <li><img src='https://via.placeholder.com/150' alt="Product 3 image"><h4>Product 3</h4><h5>R1</h5></li>
         </ul>
         <h5>Shipping</h5><h4>R 1.00</h4>
-        <h5 class='total'>Total</h5><h1>R 66</h1>
+        <h5 class='total'>Total</h5>
+        <h1>R 66</h1>
 
         <form method="post" action="index.php">
             <input type="submit" class="button-cta" name="paynow" value="REFUND">
@@ -36,23 +38,25 @@ use Payfast\PayFastPayment;
 </div>
 
 <?php
-if(isset($_POST['paynow'])) {
+if (isset($_POST['paynow'])) {
     try {
         $api = new PayFastApi(
             [
                 'merchantId' => '10000100',
                 'passPhrase' => '46f0cd694581a',
-                'testMode' => false
+                'testMode'   => false
             ]
         );
 
         $refundFetchArray = $api->refunds->fetch('dc0521d3-55fe-269b-fa00-b647310d760f');
 
-        $refundCreateArray = $api->refunds->create('dc0521d3-55fe-269b-fa00-b647310d760f', ['amount' => 50,
-            'reason' => 'Product returned', 'acc_type' => 'savings']);
-
-    } catch(Exception $e) {
-        echo 'There was an exception: '.$e->getMessage();
+        $refundCreateArray = $api->refunds->create('dc0521d3-55fe-269b-fa00-b647310d760f', [
+            'amount'   => 50,
+            'reason'   => 'Product returned',
+            'acc_type' => 'savings'
+        ]);
+    } catch (Exception $e) {
+        echo 'There was an exception: ' . $e->getMessage();
     }
 }
 ?>

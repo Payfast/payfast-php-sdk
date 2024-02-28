@@ -1,16 +1,18 @@
 <?php
+
 declare(strict_types=1);
 
-use Payfast\Exceptions\InvalidRequestException;
-use Payfast\PayFastApi;
+namespace Services;
+
+use PayFast\Exceptions\InvalidRequestException;
+use PayFast\PayFastApi;
 use PHPUnit\Framework\TestCase;
 
 final class SubscriptionsTest extends TestCase
 {
-
-    private static $api;
     public static $token;
     public static $adhocToken;
+    private static $api;
 
     public static function setUpBeforeClass(): void
     {
@@ -19,13 +21,13 @@ final class SubscriptionsTest extends TestCase
                 [
                     'merchantId' => '10026755',
                     'passPhrase' => 'test_sandbox',
-                    'testMode' => true
+                    'testMode'   => true
                 ]
             );
         } catch (InvalidRequestException $e) {
-            echo 'Caught exception: ',  $e->getMessage(), "\n";
+            echo 'Caught exception: ', $e->getMessage(), "\n";
         }
-        self::$token = 'b3f61513-7d99-42d7-bb89-78ca650334d2';
+        self::$token      = 'b3f61513-7d99-42d7-bb89-78ca650334d2';
         self::$adhocToken = 'b992df91-65cb-4613-89bc-5539e13ba4d3';
     }
 
@@ -152,5 +154,4 @@ final class SubscriptionsTest extends TestCase
 
         self::$api->subscriptions->cancel('test');
     }
-
 }

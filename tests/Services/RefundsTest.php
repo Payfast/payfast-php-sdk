@@ -1,15 +1,17 @@
 <?php
+
 declare(strict_types=1);
 
-use Payfast\Exceptions\InvalidRequestException;
-use Payfast\PayFastApi;
+namespace Services;
+
+use PayFast\Exceptions\InvalidRequestException;
+use PayFast\PayFastApi;
 use PHPUnit\Framework\TestCase;
 
 final class RefundsTest extends TestCase
 {
-
-    private static $api;
     public static $id;
+    private static $api;
 
     public static function setUpBeforeClass(): void
     {
@@ -18,11 +20,11 @@ final class RefundsTest extends TestCase
                 [
                     'merchantId' => '10026755',
                     'passPhrase' => 'test_sandbox',
-                    'testMode' => true
+                    'testMode'   => true
                 ]
             );
         } catch (InvalidRequestException $e) {
-            echo 'Caught exception: ',  $e->getMessage(), "\n";
+            echo 'Caught exception: ', $e->getMessage(), "\n";
         }
         self::$id = '1124464';
     }
@@ -58,7 +60,8 @@ final class RefundsTest extends TestCase
     /*
     public function testCreate(): void
     {
-        $response = self::$api->refunds->create(self::$id, ['amount' => 1, 'notify_buyer' => 0, 'reason' => 'Product returned', 'acc_type' => 'current']);
+        $response = self::$api->refunds->create(self::$id, ['amount' => 1, 'notify_buyer' => 0,
+     'reason' => 'Product returned', 'acc_type' => 'current']);
 
         self::assertContains($response['status'], ["success", "failed"]);
     }
@@ -73,5 +76,4 @@ final class RefundsTest extends TestCase
 
         self::$api->refunds->create('abc', ['notify_buyer' => 0]);
     }
-
 }

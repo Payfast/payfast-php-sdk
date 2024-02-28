@@ -1,21 +1,19 @@
 <?php
 
-namespace Payfast;
+namespace PayFast;
 
 use Exception;
-use Payfast\Exceptions\InvalidRequestException;
-use RuntimeException;
+use PayFast\Exceptions\InvalidRequestException;
 
 /**
- * Class Payfast
+ * Class PayFast
  * @property mixed subscriptions
  * @property mixed transactionHistory
  * @property mixed creditCardTransactions
- * @package Payfast
+ * @package PayFast
  */
 class PayFastApi
 {
-
     /** @var string Base URL for the API */
     public static $apiUrl = 'https://api.payfast.co.za';
 
@@ -33,33 +31,36 @@ class PayFastApi
 
     /**
      * PayFastApi constructor.
+     *
      * @param $setup
+     *
      * @throws InvalidRequestException
      */
     public function __construct($setup)
     {
-        if(isset($setup['merchantId'])) {
+        if (isset($setup['merchantId'])) {
             self::$merchantId = $setup['merchantId'];
         } else {
             throw new InvalidRequestException('Missing parameter "merchantId"', 400);
         }
         self::$passPhrase = $setup['passPhrase'] ?? null;
-        self::$testMode = $setup['testMode'] ?? false;
-        self::$version = $setup['version'] ?? 'v1';
+        self::$testMode   = $setup['testMode'] ?? false;
+        self::$version    = $setup['version'] ?? 'v1';
     }
 
     /**
      * @param $property
+     *
      * @return mixed
      * @throws Exception
      */
-    public function __get($property) {
+    public function __get($property)
+    {
         $class = ServiceMapper::getClass($property);
         if ($class !== null) {
-            return new $class;
+            return new $class();
         }
 
-        throw new InvalidArgumentException("Unknown method");
+        throw new \InvalidArgumentException("Unknown method");
     }
-
 }

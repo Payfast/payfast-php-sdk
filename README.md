@@ -7,10 +7,6 @@ This includes Custom Integration, Onsite Integration and all APIs.
 
 PHP 8.1 and later.
 
-## 1.1.5+ Breaking changes
-
-- All references to **PayFast** have been changed to **Payfast**. Before updating to 1.1.5, please refactor references to previous namespaces and function calls.
-
 ## Documentation
 
 See the [Developer Docs](https://developers.payfast.co.za/docs)
@@ -65,7 +61,8 @@ try {
 
 Integrate Payfast’s secure payment engine directly into your checkout page.
 
-**NB!** The default value of 'testMode' is false. Otherwise we get the Exception: "_**There was an exception: Sorry but Onsite is not available in Sandbox mode**_"
+**NB!** The default value of 'testMode' is false. Otherwise we get the Exception: "
+_**There was an exception: Sorry but Onsite is not available in Sandbox mode**_"
 
 See the [Developer Docs](https://developers.payfast.co.za/docs#onsite_payments)
 
@@ -137,9 +134,11 @@ try {
 
 #### Update card
 
-The update card endpoint allows you to provide buyers with a link to update their card details on a Recurring Billing subscription or Tokenization charges.
+The update card endpoint allows you to provide buyers with a link to update their card details on a Recurring Billing
+subscription or Tokenization charges.
 
-**NB!** The default value of 'testMode' is false. Otherwise we get the Exception: "_**There was an exception: Sorry but Onsite is not available in Sandbox mode**_"
+**NB!** The default value of 'testMode' is false. Otherwise we get the Exception: "
+_**There was an exception: Sorry but Onsite is not available in Sandbox mode**_"
 
 See the [Developer Docs](https://developers.payfast.co.za/docs#recurring_card_update)
 
@@ -221,7 +220,8 @@ try {
 
 The Refunds API Providing gives Merchants the ability to perform refunds on their account.
 
-**NB!** The default value of 'testMode' is false. Otherwise we get the Exception: "_**There was an exception: Sorry but Onsite is not available in Sandbox mode**_"
+**NB!** The default value of 'testMode' is false. Otherwise we get the Exception: "
+_**There was an exception: Sorry but Onsite is not available in Sandbox mode**_"
 
 See the [Developer Docs](https://developers.payfast.co.za/api#refunds)
 

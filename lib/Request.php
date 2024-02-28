@@ -1,37 +1,39 @@
 <?php
 
-namespace Payfast;
+namespace PayFast;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
-use InvalidArgumentException;
+use PayFast\Exceptions\InvalidRequestException;
 use Psr\Http\Message\StreamInterface;
 
 class Request
 {
-
     /**
      * Request
+     *
      * @param string $method
      * @param string $uri
      * @param array $queryParams Query params: ['foo' => 'bar']
      * @param array $jsonData json data: ['foo' => 'bar']
+     *
      * @return StreamInterface
      * @throws GuzzleException
      */
-    public static function sendApiRequest(string $method, string $uri, array $queryParams=[], array $jsonData=[]) {
-        $client = new Client(['base_uri' => PayFastApi::$apiUrl.'/']);
+    public static function sendApiRequest(string $method, string $uri, array $queryParams = [], array $jsonData = [])
+    {
+        $client = new Client(['base_uri' => PayFastApi::$apiUrl . '/']);
 
         $params = [];
 
-        if(!empty($queryParams)) {
+        if (!empty($queryParams)) {
             $params['query'] = $queryParams;
         }
-        if(PayFastApi::$testMode === true){
+        if (PayFastApi::$testMode === true) {
             $params['query']['testing'] = 'true';
         }
 
-        if(!empty($jsonData)) {
+        if (!empty($jsonData)) {
             $params['json'] = $jsonData;
         }
 
@@ -49,10 +51,10 @@ class Request
 
         try {
             $response = $client->request($method, $uri, $params);
+
             return $response->getBody();
         } catch (GuzzleException $e) {
-            throw new InvalidArgumentException($e);
+            throw new InvalidRequestException($e);
         }
     }
-
 }

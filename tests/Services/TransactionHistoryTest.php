@@ -1,17 +1,18 @@
 <?php
+
 declare(strict_types=1);
 
-use Payfast\Exceptions\InvalidRequestException;
-use Payfast\PayFastApi;
+namespace Services;
+
+use PayFast\Exceptions\InvalidRequestException;
+use PayFast\PayFastApi;
 use PHPUnit\Framework\TestCase;
 
 final class TransactionHistoryTest extends TestCase
 {
-
-    private static $api;
-
     public const OFFSET = 0;
-    public const LIMIT = 5;
+    public const LIMIT  = 5;
+    private static $api;
 
     public static function setUpBeforeClass(): void
     {
@@ -20,11 +21,11 @@ final class TransactionHistoryTest extends TestCase
                 [
                     'merchantId' => '10026755',
                     'passPhrase' => 'test_sandbox',
-                    'testMode' => true
+                    'testMode'   => true
                 ]
             );
         } catch (InvalidRequestException $e) {
-            echo 'Caught exception: ',  $e->getMessage(), "\n";
+            echo 'Caught exception: ', $e->getMessage(), "\n";
         }
     }
 
@@ -43,7 +44,12 @@ final class TransactionHistoryTest extends TestCase
      */
     public function testRangeWithVariables(): void
     {
-        $response = self::$api->transactionHistory->range(['from' => '2020-08-01', 'to' => '2020-08-07', 'offset' => self::OFFSET, 'limit' => self::LIMIT]);
+        $response = self::$api->transactionHistory->range([
+                                                              'from'   => '2020-08-01',
+                                                              'to'     => '2020-08-07',
+                                                              'offset' => self::OFFSET,
+                                                              'limit'  => self::LIMIT
+                                                          ]);
 
         self::assertIsString($response);
     }
@@ -83,7 +89,11 @@ final class TransactionHistoryTest extends TestCase
      */
     public function testDailyWithVariables(): void
     {
-        $response = self::$api->transactionHistory->daily(['date' => '2020-08-07', 'offset' => self::OFFSET, 'limit' => self::LIMIT]);
+        $response = self::$api->transactionHistory->daily([
+                                                              'date'   => '2020-08-07',
+                                                              'offset' => self::OFFSET,
+                                                              'limit'  => self::LIMIT
+                                                          ]);
 
         self::assertIsString($response);
     }
@@ -123,7 +133,11 @@ final class TransactionHistoryTest extends TestCase
      */
     public function testWeeklyWithVariables(): void
     {
-        $response = self::$api->transactionHistory->weekly(['date' => '2020-08-07', 'offset' => self::OFFSET, 'limit' => self::LIMIT]);
+        $response = self::$api->transactionHistory->weekly([
+                                                               'date'   => '2020-08-07',
+                                                               'offset' => self::OFFSET,
+                                                               'limit'  => self::LIMIT
+                                                           ]);
 
         self::assertIsString($response);
     }
@@ -163,7 +177,11 @@ final class TransactionHistoryTest extends TestCase
      */
     public function testMonthlyWithVariables(): void
     {
-        $response = self::$api->transactionHistory->monthly(['date' => '2020-08', 'offset' => self::OFFSET, 'limit' => self::LIMIT]);
+        $response = self::$api->transactionHistory->monthly([
+                                                                'date'   => '2020-08',
+                                                                'offset' => self::OFFSET,
+                                                                'limit'  => self::LIMIT
+                                                            ]);
 
         self::assertIsString($response);
     }
@@ -187,5 +205,4 @@ final class TransactionHistoryTest extends TestCase
 
         self::$api->transactionHistory->monthly(['date' => '2020-08-01', 'offset' => 'A', 'limit' => '1000']);
     }
-
 }
